@@ -10,7 +10,6 @@ kaldi/.git: .gitmodules
 	git submodule sync -- kaldi
 	git submodule update kaldi
 
-
 kaldi/src/kaldi.mk: kaldi/.git $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h
 	@echo "kaldi configure"
 	cd kaldi/src && \
@@ -26,7 +25,9 @@ $(FSTDIR)/lib/libfst.a: kaldi/.git
 kaldi: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kaldi.mk
 	$(MAKE) -C kaldi/src
 
-
+install: kaldi
+	echo "Kaldi compiled"
+	
 distclean:
 	$(MAKE) -C kaldi/tools distclean
 	$(MAKE) -C kaldi/src clean

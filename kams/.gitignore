@@ -1,0 +1,11 @@
+data
+ckpts
+exp
+steps 
+utils
+mfcc
+steps
+*.log
+graph.svg
+*CUSTOM.sh
+model*
