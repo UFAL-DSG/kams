@@ -6,9 +6,9 @@ export EVERY_N=1
 export TEST_SETS="dev test"
 
 # Directories set up
-export DATA_ROOT=/ha/projects/vystadial/nobackup/asr-mixer/es-voip # expects subdirectories train + $TEST_SETS
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/es-voip # expects subdirectories train + $TEST_SETS
 export WORK=`pwd`/model_es_voip
-export EXP=`pwd`/model_es_voip/exp
+export EXP=$WORK/exp
 export TGT_MODELS=exported/es_voip
 
 # Specify paths to arpa models. Paths may not contain spaces.

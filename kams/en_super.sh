@@ -2,14 +2,14 @@
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
-export EVERY_N=1
+export EVERY_N=2
 export TEST_SETS="dev test"
 
 # Directories set up
-export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/cs-voip  # expects subdirectories train + $TEST_SETS
-export WORK=`pwd`/model_cs_voip
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-super  # expects subdirectories train + $TEST_SETS
+export WORK=`pwd`/model_en_super
 export EXP=$WORK/exp
-export TGT_MODELS=exported/cs_voip
+export TGT_MODELS=exported/en_super
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -26,7 +26,7 @@ export DICTIONARY="build"
 # Borders for estimating LM model weight.
 # LMW is tuned on development set and applied on test set.
 export min_lmw=4
-export max_lmw=15
+export max_lmw=20
 
 # Number of states for phonem training
 export pdf=1200

@@ -54,8 +54,9 @@ done
 #######################################################################
 
 echo
-echo "Train monophone models on full data -> may be wastefull (can be done on a subset)"
-local/check.sh steps/train_mono.sh  --nj $njobs --cmd "$train_cmd" $WORK/train $WORK/lang $EXP/mono || exit 1
+echo "Train monophone models on 5k data"
+local/check.sh utils/subset_data_dir.sh $WORK/train 5000 $WORK/train.5k
+local/check.sh steps/train_mono.sh  --nj $njobs --cmd "$train_cmd" $WORK/train.5k $WORK/lang $EXP/mono || exit 1
 
 local/check.sh steps/align_si.sh  --nj $njobs --cmd "$train_cmd" \
   $WORK/train $WORK/lang $EXP/mono $EXP/mono_ali || exit 1

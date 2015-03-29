@@ -55,7 +55,7 @@ test_sets=$1; shift
 echo "LMs $LMs  test_sets $test_sets"
 
 
-echo "=== Starting initial Vystadial data preparation ..."
+echo "=== Starting initial data preparation ..."
 echo "--- Making test/train data split from $DATA taking every $every_n recording..."
 
 mkdir -p $locdata
@@ -67,22 +67,22 @@ for s in $test_sets train ; do
   mkdir -p $locdata/$s
 
   echo "Initializing set '$s' output files"
-  for f in spk2utt trans.txt utt2spk wav.scp ; do
+  for f in spk2gender spk2utt trans.txt utt2spk wav.scp ; do
     echo -n "" > "$locdata/$s/$f"
   done
   echo -n "" > "$locdata/spk2gender"
 
-  find $DATA/$s/ -name "*.wav" | sed -n /.*wav$/p |\
+  find $DATA/$s/ -name "*.trn" -exec test -e {} \; -print | sed s/\.trn$// |\
   while read wav ; do
     ((i++)) || true # bash specific
-    if [[ $i -ge $every_n ]] ; then
+    if [[ $s != "train" || $i -ge $every_n ]] ; then
       i=0
-      pwav=$wav
+      
       trn=`cat $wav.trn`
       echo "$wav $wav" >> $locdata/$s/spk2utt
       echo "$wav $trn" >> $locdata/$s/trans.txt
       echo "$wav $wav" >> $locdata/$s/utt2spk
-      echo "$wav $pwav" >> $locdata/$s/wav.scp
+      echo "$wav $wav" >> $locdata/$s/wav.scp
       # all male
       echo "$wav m" >> $locdata/$s/spk2gender  
     fi

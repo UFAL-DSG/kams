@@ -47,7 +47,7 @@ echo "=== Preparing the LM ..."
 function build_0gram {
     echo "=== Building zerogram $lm from ${transcr}. ..."
     transcr=$1; lm=$2
-    cut -d' ' -f2- $transcr | tr ' ' '\n' | sort -u > $lm
+    cut -d' ' -f2- $transcr | tr ' ' '\n' | sort -u | egrep -v '^$' > $lm
     echo "<s>" >> $lm
     echo "</s>" >> $lm
     python -c """
@@ -93,7 +93,7 @@ echo "=== Preparing the vocabulary ..."
 
 if [ "$DICTIONARY" == "build" ]; then
   echo; echo "Building dictionary from train data"; echo
-  cut -d' ' -f2- $train_text | tr ' ' '\n' > $local_lm/vocab-full-raw.txt
+  cut -d' ' -f2- $train_text | tr ' ' '\n' | egrep -v '^$' > $local_lm/vocab-full-raw.txt
 else
   echo; echo "Using predefined dictionary: ${DICTIONARY}"
   echo "Throwing away first 2 rows."; echo
