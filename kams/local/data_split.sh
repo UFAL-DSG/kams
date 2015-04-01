@@ -78,7 +78,7 @@ for s in $test_sets train ; do
     if [[ $s != "train" || $i -ge $every_n ]] ; then
       i=0
       
-      trn=`cat $wav.trn`
+      trn=`cat $wav.trn | tr '\n\t' '  '`
       echo "$wav $wav" >> $locdata/$s/spk2utt
       echo "$wav $trn" >> $locdata/$s/trans.txt
       echo "$wav $wav" >> $locdata/$s/utt2spk

@@ -62,7 +62,7 @@ if [ $stage -le 0 ]; then
     lattice-align-words $lang/phones/word_boundary.int $model ark:- ark:- \| \
     lattice-to-phone-lattice $model ark:- ark:- \| \
     nbest-to-ctm --precision=2 --frame-shift=0.01 ark:- - \| \
-    tee debug.log \| \
+    tee $WORK/get_train_ctm_phones_debug.log \| \
     utils/int2sym.pl -f 5 $lang/phones.txt \| \
     gzip -c '>' $dir/ctm.JOB.gz
 fi

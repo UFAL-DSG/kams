@@ -2,7 +2,7 @@
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
-export EVERY_N=2
+export EVERY_N=1
 export TEST_SETS="dev test"
 
 # Directories set up
