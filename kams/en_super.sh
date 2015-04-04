@@ -19,7 +19,7 @@ export LM_paths="build0 build2"
 export LM_names="build0 build2"
 
 # Use path to prebuilt dictionary or 'build' command in order to build dictionary
-# export DICTIONARY="../../resources/lm/caminfo/dict"
+# export DICTIONARY="../xxx/dict"
 export DICTIONARY="build"
 
 
@@ -36,16 +36,28 @@ export gauss=19200
 
 export train_mmi_boost=0.05
 
-export mmi_beam=16.0
-export mmi_lat_beam=10.0
+export mmi_beam=12.0
+export mmi_lat_beam=6.0
 
-export smbr_beam=16.0
-export smbr_lat_beam=10.0
+export smbr_beam=12.0
+export smbr_lat_beam=6.0
 
 # --fake -> NO CMVN; empty -> CMVN (pykaldi decoders can not handle CMVN -> fake)
 export fake="--fake"
 
 export g2p="local/prepare_dummy_transcription.sh"
+
+# set paralelisation
+# for standard training using using CPU
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G"
+export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G"
+export njobs=1000
+export njobs_dev_test=200
+
+# This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
+# You must run the training from a CUDA enabled manchine!
+export gpu_cmd=run.pl
+export gpu_nj=16
 
 mkdir -p $WORK
 mkdir -p $TGT_MODELS
