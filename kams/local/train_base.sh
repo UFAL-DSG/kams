@@ -91,40 +91,48 @@ local/check.sh steps/align_si.sh  --nj $njobs --cmd "$train_cmd" \
 local/check.sh local/get_train_ctm_phones.sh $WORK/train $WORK/lang $EXP/tri2b_ali || exit 1
 local/check.sh local/ctm2mlf.py $EXP/tri2b_ali/ctm $EXP/tri2b_ali/mlf || exit 1
 
-echo
-echo "Train tri2b_bmmi [MMI on top of LDA+MLLT with boosting. train_mmi_boost is a e.g. 0.05]"
-local/check.sh steps/make_denlats.sh  --nj $njobs --cmd "$train_cmd" \
-   --beam $mmi_beam --lattice-beam $mmi_lat_beam \
-   $WORK/train $WORK/lang $EXP/tri2b $EXP/tri2b_denlats || exit 1
+if [[ "$TRI2B_BMMI" = true ]] ; then
+  echo
+  echo "Train tri2b_bmmi [MMI on top of LDA+MLLT with boosting. train_mmi_boost is a e.g. 0.05]"
+  local/check.sh steps/make_denlats.sh  --nj $njobs --cmd "$train_cmd" \
+    --beam $mmi_beam --lattice-beam $mmi_lat_beam \
+    $WORK/train $WORK/lang $EXP/tri2b $EXP/tri2b_denlats || exit 1
 
-local/check.sh steps/train_mmi.sh --cmd "$train_cmd" \
-   --boost ${train_mmi_boost} $WORK/train $WORK/lang \
-   $EXP/tri2b_ali $EXP/tri2b_denlats $EXP/tri2b_mmi_b${train_mmi_boost} || exit 1
+  local/check.sh steps/train_mmi.sh --cmd "$train_cmd" \
+    --boost ${train_mmi_boost} $WORK/train $WORK/lang \
+    $EXP/tri2b_ali $EXP/tri2b_denlats $EXP/tri2b_mmi_b${train_mmi_boost} || exit 1
 
-local/check.sh steps/align_si.sh  --nj $njobs --cmd "$train_cmd" \
-  --use-graphs true $WORK/train $WORK/lang $EXP/tri2b $EXP/tri2b_mmi_b${train_mmi_boost}_ali || exit 1
+  local/check.sh steps/align_si.sh  --nj $njobs --cmd "$train_cmd" \
+    --use-graphs true $WORK/train $WORK/lang $EXP/tri2b $EXP/tri2b_mmi_b${train_mmi_boost}_ali || exit 1
+fi
 
-#echo
-#echo "Train tri3b, which is LDA+MLLT+SAT"
-#local/check.sh steps/train_sat.sh --cmd "$train_cmd" \
-#  $pdf $gauss $WORK/train $WORK/lang $EXP/tri2b_ali $EXP/tri3b || exit 1;
+if [[ "$TRI3B" = true ]] ; then
+  echo
+  echo "Train tri3b, which is LDA+MLLT+SAT"
+  local/check.sh steps/train_sat.sh --cmd "$train_cmd" \
+    $pdf $gauss $WORK/train $WORK/lang $EXP/tri2b_ali $EXP/tri3b || exit 1;
 
-#local/check.sh steps/align_fmllr.sh --nj $njobs --cmd "$train_cmd" \
-#  $WORK/train $WORK/lang $EXP/tri3b $EXP/tri3b_ali || exit 1;
+  local/check.sh steps/align_fmllr.sh --nj $njobs --cmd "$train_cmd" \
+    $WORK/train $WORK/lang $EXP/tri3b $EXP/tri3b_ali || exit 1;
+fi
 
-echo
-echo "Train nnet"
-./local/run_nnet_online.sh --gauss $gauss --pdf $pdf \
+if [[ "$TRI4_NNET2" = true ]] ; then
+  echo
+  echo "Train nnet"
+  ./local/run_nnet_online.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri2b \
     --tgtdir $EXP/tri4_nnet2 \
     $WORK $EXP || exit 1
+fi
 
-echo
-echo "Train nnet discriminatively [SMBR]"
-./local/run_nnet_online-discriminative.sh --gauss $gauss --pdf $pdf \
+if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
+  echo
+  echo "Train nnet discriminatively [SMBR]"
+  ./local/run_nnet_online-discriminative.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri4_nnet2 \
     --tgtdir $EXP/tri4_nnet2_smbr \
     $WORK $EXP || exit 1
+fi
 
 # Cleaning does not help a lot
 # local/check.sh local/data_clean.sh --thresh 0.1 --cleandir $EXP/tri2b_mmi_b${train_mmi_boost}_selected \
@@ -143,9 +151,9 @@ for lm in $LM_names ; do
   # local/check.sh utils/mkgraph.sh --mono $WORK/lang_${lm} $EXP/mono $EXP/mono/graph_${lm} || exit 1
   # local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri1 $EXP/tri1/graph_${lm} || exit 1
   local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri2b $EXP/tri2b/graph_${lm} || exit 1
-#  local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri3b $EXP/tri3b/graph_${lm} || exit 1
-  local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2 $EXP/tri4_nnet2/graph_${lm} || exit 1
-  local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2_smbr $EXP/tri4_nnet2_smbr/graph_${lm} || exit 1
+  [[ "$TRI3B" = true ]]           && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri3b $EXP/tri3b/graph_${lm} || exit 1)
+  [[ "$TRI4_NNET2" = true ]]      && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2 $EXP/tri4_nnet2/graph_${lm} || exit 1)
+  [[ "$TRI4_NNET2_SMBR" = true ]] && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2_smbr $EXP/tri4_nnet2_smbr/graph_${lm} || exit 1)
 done
 
 
@@ -169,37 +177,46 @@ for s in $TEST_SETS ; do
     #    --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
     #   $EXP/tri1/graph_${lm} $WORK/$tgt_dir $EXP/tri1/decode_${tgt_dir}
     #
-     echo "Decode tri2b [LDA+MLLT]"
-     local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
-        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-       $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b/decode_${tgt_dir};
-
-    # Note: change --iter option to select the best model. 4.mdl == final.mdl
-    echo "Decode tri2b_mmi_b${train_mmi_boost} [LDA+MLLT with MMI + boosting]. train_mmi_boost is a number e.g. 0.05"
+    echo "Decode tri2b [LDA+MLLT]"
     local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
-       --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-      $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b_mmi_b${train_mmi_boost}/decode_${tgt_dir}
+      --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+      $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b/decode_${tgt_dir};
 
-#    echo "Decode tri3b [LDA+MLLT+SAT]"
-#    local/check.sh steps/decode_fmllr.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
-#       --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-#      $EXP/tri3b/graph_${lm} $WORK/$tgt_dir $EXP/tri3b/decode_${tgt_dir}
-
+    echo 'Decoding'
+    if [[ "$TRI2B_BMMI" = true ]] ; then
+      # Note: change --iter option to select the best model. 4.mdl == final.mdl
+      echo "Decode tri2b_mmi_b${train_mmi_boost} [LDA+MLLT with MMI + boosting]. train_mmi_boost is a number e.g. 0.05"
+      local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b_mmi_b${train_mmi_boost}/decode_${tgt_dir}
+    fi
+    
+    if [[ "$TRI3B" = true ]] ; then
+      echo "Decode tri3b [LDA+MLLT+SAT]"
+      local/check.sh steps/decode_fmllr.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri3b/graph_${lm} $WORK/$tgt_dir $EXP/tri3b/decode_${tgt_dir}
+    fi
+    
     # echo "On Cleaned data:Decode MMI on top of LDA+MLLT with boosting. train_mmi_boost is a number e.g. 0.05: RESULTS on vystadial 0.95% of all data and WER improvement of 0.02 for tri2 + bMMI_b005 model"
     # local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
     #   --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
     #   $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b_mmi_b${train_mmi_boost}_cleaned/decode_it4_${tgt_dir}
 
-    echo "Decode nnet2 online"
-    local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
-      --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-      $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_online/decode_${tgt_dir}
-
-    echo "Decode nnet2 discriminative [SMBR] online"
-    local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
-      --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-      $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_smbr_online/decode_${tgt_dir}
-
+    if [[ "$TRI4_NNET2" = true ]] ; then
+      echo "Decode nnet2 online"
+      local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_online/decode_${tgt_dir}
+    fi
+    
+    if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
+      echo "Decode nnet2 discriminative [SMBR] online"
+      local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_smbr_online/decode_${tgt_dir}
+    fi
+    
   done
 done
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# set what models to train
+export TRI2B_BMMI=true
+export TRI3B=false
+export TRI4_NNET2=true
+export TRI4_NNET2_SMBR=true
+
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
 export EVERY_N=1

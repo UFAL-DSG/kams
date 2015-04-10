@@ -3,8 +3,8 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=true
-export TRI4_NNET2_SMBR=true
+export TRI4_NNET2=false
+export TRI4_NNET2_SMBR=false
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -12,10 +12,10 @@ export EVERY_N=1
 export TEST_SETS="dev test"
 
 # Directories set up
-export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-voip  # expects subdirectories train + $TEST_SETS
-export WORK=`pwd`/model_en_voip
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-super  # expects subdirectories train + $TEST_SETS
+export WORK=`pwd`/model_en_super_no_dnn
 export EXP=$WORK/exp
-export TGT_MODELS=exported/en_voip
+export TGT_MODELS=exported/en_super_no_dnn
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -42,11 +42,11 @@ export gauss=19200
 
 export train_mmi_boost=0.05
 
-export mmi_beam=16.0
-export mmi_lat_beam=10.0
+export mmi_beam=12.0
+export mmi_lat_beam=6.0
 
-export smbr_beam=16.0
-export smbr_lat_beam=10.0
+export smbr_beam=12.0
+export smbr_lat_beam=6.0
 
 # --fake -> NO CMVN; empty -> CMVN (pykaldi decoders can not handle CMVN -> fake)
 export fake="--fake"
@@ -55,9 +55,9 @@ export g2p="local/prepare_dummy_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G"
-export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G"
-export njobs=200
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5' | tr '\n' ',' | sed s/\,$//`'"
+export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5' | tr '\n' ',' | sed s/\,$//`'"
+export njobs=1000
 export njobs_dev_test=200
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.

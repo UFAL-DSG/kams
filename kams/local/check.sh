@@ -3,7 +3,9 @@ set -e
 
 mkdir -p ckpts
 
-fullname="./ckpts/`echo $@ | sed 's:[/!]:_:g'`"
+# please ignore the --cmd option, as this is only way of computation but the results should be always the same
+
+fullname="./ckpts/`echo $@ | sed s:--cmd.*\'\ :: | sed 's:[/!]:_:g'`"
 if [[ ${#fullname} -gt 255 ]] ; then
   if which md5 > /dev/null ; then 
       hash="`echo $fullname | md5`" 
