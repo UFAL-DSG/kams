@@ -16,7 +16,8 @@ if [ ! -f $cmu_dict ] ; then
 fi
 
 echo; echo "If common/cmudict.ext exists, add extra pronunciation to dictionary" ; echo
-cat $cmu_dict  $cmu_ext > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extension
+#cat $cmu_dict  $cmu_ext > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extension
+cat $cmu_dict > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extension
 
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
 perl local/make_baseform.pl \

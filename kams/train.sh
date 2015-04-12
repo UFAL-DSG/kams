@@ -16,6 +16,10 @@ local/check_path.sh
 . ./cmd.sh
 
 # Load training parameters (passed as a script)
-. $1
+if [[ ! -z "$1" ]] ; then
+  . $1
+else
+  echo "You mush specify a parameter file, e.g. train.sh LANG_COND_params.sh"
+fi
 
 local/train_base.sh

@@ -12,8 +12,7 @@ kaldi/.git: .gitmodules
 
 kaldi/src/kaldi.mk: kaldi/.git $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h
 	@echo "kaldi configure"
-	cd kaldi/src && \
-		./configure --shared
+	cd kaldi/src && ./configure
 
 kaldi/tools/ATLAS/include/clapack.h: kaldi/.git
 	$(MAKE) -C kaldi/tools  atlas ; echo "Installing atlas finished $?"

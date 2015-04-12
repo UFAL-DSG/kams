@@ -42,6 +42,9 @@ for s in train ; do
 done
 
 
+echo "Distribute the SCP lists"
+local/check.sh local/distribute_scp_lists.sh $DATA_ROOT $WORK/local "$LM_names" "$TEST_SETS" || exit 1
+
 echo "Decoding is done for each pair (TEST_SET x LMs)"
 echo "Distribute the links to MFCC feats to all LM variations."
 cp -f $WORK/local/train/feats.scp $WORK/train/feats.scp
