@@ -35,10 +35,10 @@ export min_lmw=4
 export max_lmw=20
 
 # Number of states for phonem training
-export pdf=1200
+export pdf=2000#1200
 
 # Maximum number of Gaussians used for training
-export gauss=19200
+export gauss=25000#19200
 
 export train_mmi_boost=0.05
 
