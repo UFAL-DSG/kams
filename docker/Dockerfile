@@ -26,4 +26,11 @@ WORKDIR /app/kams
 
 # install kaldi binaries and test it
 RUN make install-kaldi-binaries && apply-cmvn --help 2> /dev/null && echo 'Kaldi binaries installed succesfully!'
-RUN make install-irstlm && echo 'IRSTLM LM modelling toolkit installed successfully!'
+RUN make INSTALL_PREFIX=/usr/local/ install-irstlm && echo 'IRSTLM LM modelling toolkit installed successfully!'
+ENV IRSTLM=/usr/local
+
+# Set the locale.
+RUN locale-gen en_US.UTF-8  
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8

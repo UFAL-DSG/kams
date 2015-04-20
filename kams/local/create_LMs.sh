@@ -76,8 +76,13 @@ for name  in "${!lms[@]}" ; do
         if [ $lm_order -eq 0 ] ; then
             build_0gram  $local_lm/lm_train.txt $local_lm/${name}
         else
-            ngram-count -text $local_lm/lm_train.txt -order ${lm_order} \
-                -wbdiscount -interpolate -lm $local_lm/${name}
+            # # srilm command
+            # ngram-count -text $local_lm/lm_train.txt -order ${lm_order} -wbdiscount -interpolate -lm $local_lm/${name}
+
+            # irstlm
+            rm -f $local_lm/${name}.iarpa.gz
+            build-lm.sh -i "$local_lm/lm_train.txt" -n ${lm_order} -s improved-shift-beta -o $local_lm/${name}.iarpa.gz 
+            compile-lm --text=yes $local_lm/${name}.iarpa.gz $local_lm/${name}
         fi
     else
         if [[ ! -f ${lms[$name]} ]] ; then
