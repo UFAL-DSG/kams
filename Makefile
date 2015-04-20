@@ -1,5 +1,6 @@
 FSTDIR=kaldi/tools/openfst
 OPENFST_VERSION=1.3.4
+INSTALL_PREFIX=/usr/local/lib
 
 all: kaldi
 

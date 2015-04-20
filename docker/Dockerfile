@@ -14,7 +14,10 @@ RUN apt-get update && apt-get install -y \
         zip \
         subversion \
         cmake \
-        zlib1g-dev
+        zlib1g-dev \
+        texlive \
+        texlive-latex-extra
+# Get rid of texlive and texlive-latex-extra it is needed just by irstlm to build pdf manual ;-)!
 
 RUN mkdir -p /app && cd /app && git clone --recursive https://github.com/UFAL-DSG/kams.git
 WORKDIR /app/kams
