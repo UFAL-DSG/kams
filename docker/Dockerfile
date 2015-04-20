@@ -21,8 +21,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /app && cd /app && git clone --recursive https://github.com/UFAL-DSG/kams.git
 WORKDIR /app/kams
+RUN git checkout irstlm  # TODO remove!!!
 # RUN pip install -r kams-requirements.txt
-
 
 # install kaldi binaries and test it
 RUN make install-kaldi-binaries && apply-cmvn --help 2> /dev/null && echo 'Kaldi binaries installed succesfully!'
