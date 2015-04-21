@@ -1,7 +1,6 @@
-# TODO cython does not recompile because of the templates and sourcefiles
 FSTDIR=kaldi/tools/openfst
-# OPENFST_VERSION=1.4.1 # fails with pyfst
 OPENFST_VERSION=1.3.4
+INSTALL_PREFIX=/usr/local/lib
 
 all: kaldi
 
@@ -26,9 +25,23 @@ kaldi: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kald
 
 install: kaldi
 	echo "Kaldi compiled"
+
+
+install-kaldi-binaries: kaldi/src/kaldi.mk
+	cp -r kaldi/src/lib/* $(INSTALL_PREFIX)/lib
+	cp `find kaldi/src -executable -type f` $(INSTALL_PREFIX)/bin
+
+irstlm:
+	svn -r 769 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
+
+irstlm/Makefile: irstlm
+	cd irstlm && cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$(INSTALL_PREFIX)"
+
+install-irstlm: irstlm/Makefile
+	$(MAKE) -C irstlm
+	$(MAKE) -C irstlm install
 	
 distclean:
 	$(MAKE) -C kaldi/tools distclean
 	$(MAKE) -C kaldi/src clean
 	rm -f kaldi/decoders.{cpp,so}
-
