@@ -24,12 +24,7 @@ for syml in $symlinks ; do
   export PATH="$PWD/$name":$PATH
 done
 
-srilm_bin=$KALDI_ROOT/tools/srilm/bin/
-if [ ! -e "$srilm_bin" ] ; then
-  echo "SRILM is not installed in $KALDI_ROOT/tools."
+if [ ! -z "$IRSTLM" ] ; then
+  echo "IRSTLM variable is not set!"
   echo "May not be able to create LMs!"
 fi
-srilm_sub_bin=`find "$srilm_bin" -type d`
-for d in $srilm_sub_bin ; do
-    export PATH=$d:$PATH
-done
