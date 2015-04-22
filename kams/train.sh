@@ -19,7 +19,7 @@ local/check_path.sh
 if [[ ! -z "$1" ]] ; then
   . $1
 else
-  echo "You mush specify a parameter file, e.g. train.sh LANG_COND_params.sh"
+  echo "You must specify a parameter file, e.g. train.sh LANG_COND_params.sh"
 fi
 
 local/train_base.sh

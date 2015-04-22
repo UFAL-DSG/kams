@@ -47,8 +47,8 @@ local/check.sh local/distribute_scp_lists.sh $DATA_ROOT $WORK/local "$LM_names" 
 
 echo "Decoding is done for each pair (TEST_SET x LMs)"
 echo "Distribute the links to MFCC feats to all LM variations."
-cp -f $WORK/local/train/feats.scp $WORK/train/feats.scp
-cp -f $WORK/local/train/cmvn.scp $WORK/train/cmvn.scp
+local/check.sh cp -f $WORK/local/train/feats.scp $WORK/train/feats.scp
+local/check.sh cp -f $WORK/local/train/cmvn.scp $WORK/train/cmvn.scp
 for s in $TEST_SETS; do
   for lm in $LM_names; do
     tgt_dir=${s}_${lm}
@@ -180,6 +180,7 @@ for s in $TEST_SETS ; do
     #    --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
     #   $EXP/tri1/graph_${lm} $WORK/$tgt_dir $EXP/tri1/decode_${tgt_dir}
     #
+    echo
     echo "Decode tri2b [LDA+MLLT]"
     local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
       --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
@@ -188,6 +189,7 @@ for s in $TEST_SETS ; do
     echo 'Decoding'
     if [[ "$TRI2B_BMMI" = true ]] ; then
       # Note: change --iter option to select the best model. 4.mdl == final.mdl
+      echo
       echo "Decode tri2b_mmi_b${train_mmi_boost} [LDA+MLLT with MMI + boosting]. train_mmi_boost is a number e.g. 0.05"
       local/check.sh steps/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
@@ -195,6 +197,7 @@ for s in $TEST_SETS ; do
     fi
 
     if [[ "$TRI3B" = true ]] ; then
+      echo
       echo "Decode tri3b [LDA+MLLT+SAT]"
       local/check.sh steps/decode_fmllr.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
@@ -207,6 +210,7 @@ for s in $TEST_SETS ; do
     #   $EXP/tri2b/graph_${lm} $WORK/$tgt_dir $EXP/tri2b_mmi_b${train_mmi_boost}_cleaned/decode_it4_${tgt_dir}
 
     if [[ "$TRI4_NNET2" = true ]] ; then
+      echo
       echo "Decode nnet2 online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
@@ -214,6 +218,7 @@ for s in $TEST_SETS ; do
     fi
 
     if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
+      echo
       echo "Decode nnet2 discriminative [SMBR] online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
