@@ -19,6 +19,8 @@ tgt=$1; shift
 exp=$1; shift
 lang=$1; shift
 
+tgt=${tgt}-`date -u +"%Y-%m-%d--%H-%M-%S"`
+
 mkdir -p $tgt
 
 echo "--- Exporting models to $tgt ..."

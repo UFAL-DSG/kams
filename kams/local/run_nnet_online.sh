@@ -84,7 +84,7 @@ local/check.sh steps/online/nnet2/extract_ivectors_online.sh \
 #
 # I copied the learning rates from wsj/s5/local/nnet2/run_5d.sh
 local/check.sh steps/nnet2/train_pnorm_simple2.sh --stage $train_stage \
-    --num-epochs 12 \
+    --num-epochs 8 \
     --splice-width 7 --feat-type raw \
     --online-ivector-dir $tgtdir/ivectors_train \
     --cmvn-opts "--norm-means=false --norm-vars=false" \
@@ -94,7 +94,7 @@ local/check.sh steps/nnet2/train_pnorm_simple2.sh --stage $train_stage \
     --num-jobs-nnet $num_jobs_nnet \
     --num-hidden-layers 4 \
     --mix-up 4000 \
-    --initial-learning-rate 0.02 --final-learning-rate 0.004 \
+    --initial-learning-rate 0.01 --final-learning-rate 0.001 \
     --cmd "$gpu_cmd" \
     --pnorm-input-dim 2400 \
     --pnorm-output-dim 300 \
