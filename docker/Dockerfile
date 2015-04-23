@@ -1,8 +1,6 @@
 FROM      ubuntu:14.04
 MAINTAINER Ondrej Platek <ondrej.platek@gmail.com>
 
-# ENTRYPOINT ["/bin/bash"]
-
 # Set the locale.
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -36,7 +34,10 @@ RUN mkdir -p /kaldi_uproot ; cd /kaldi_uproot; git clone --recursive https://git
 WORKDIR /kaldi_uproot/kams
 RUN make
 WORKDIR /kaldi_uproot/kams/kams
+ENV KALDI_ROOT=/kaldi_uproot/kams/kaldi
 RUN . local/setting.sh ; ls -l path.sh ; . ./path.sh ; \
     apply-cmvn --help 2> /dev/null \
     && build-lm.sh --help > /dev/null \
-    && echo -e "\n\nKaldi binaries and irstlm are installed under KALDI_ROOT=/kaldi_uproot/kams/kaldi\n"
+    && echo -e "\n\nKaldi binaries and irstlm are installed under KALDI_ROOT=$KALDI_ROOT\n"
+RUN mkdir -p /app/kams
+WORKDIR /app/kams
