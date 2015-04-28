@@ -1,8 +1,11 @@
 FSTDIR=kaldi/tools/openfst
 OPENFST_VERSION=1.3.4
-INSTALL_PREFIX=/usr/local/
+INSTALL_PREFIX=$(PWD)/kaldi/tools/irstlm
 
-all: kaldi
+all: install
+
+$(INSTALL_PREFIX):
+	mkdir -p $(install_dir)
 
 kaldi/.git: .gitmodules
 	git submodule init kaldi
@@ -23,8 +26,9 @@ $(FSTDIR)/lib/libfst.a: kaldi/.git
 kaldi: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kaldi.mk
 	$(MAKE) -C kaldi/src
 
-install: kaldi
+install: kaldi install-irstlm
 	echo "Kaldi compiled"
+	echo "irstlm Installed to $(INSTALL_PREFIX)"
 
 
 install-kaldi-binaries: kaldi/src/kaldi.mk
