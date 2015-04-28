@@ -49,7 +49,7 @@ nj=`cat $srcdir/num_jobs` || exit 1;
 mkdir -p $tgtdir
 
 local/check.sh steps/nnet2/make_denlats.sh --nj "$nj" --cmd "$train_cmd" \
-    --sub-split 40 --num-threads 1 --parallel-opts "-pe smp 1" \
+    --num-threads 1 --parallel-opts "-pe smp 1" \
     --online-ivector-dir $srcdir/ivectors_train \
     --beam $smbr_beam --lattice-beam $smbr_lat_beam \
     $WORK/train $WORK/lang $srcdir ${srcdir}_denlats
