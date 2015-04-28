@@ -55,8 +55,8 @@ export g2p="local/prepare_en_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
-export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
+export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
 export njobs=400
 export njobs_dev_test=400
 

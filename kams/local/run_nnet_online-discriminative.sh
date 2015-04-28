@@ -4,10 +4,6 @@
 set -e
 #set -x
 
-. ./cmd.sh
-. ./path.sh
-
-
 train_stage=-10
 use_gpu=true
 test_sets=
