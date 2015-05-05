@@ -58,6 +58,7 @@ export g2p="local/prepare_dummy_transcription.sh"
 export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G"
 export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G"
 export njobs=200
+export njobs_mfcc=50
 export njobs_dev_test=100
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.

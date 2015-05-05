@@ -28,14 +28,14 @@ local/check.sh local/create_G.sh $WORK/lang "$LM_names" $WORK/local/lm $WORK/loc
 echo "Create MFCC features and storing them (Could be large)."
 for s in $TEST_SETS ; do
     local/check.sh steps/make_mfcc.sh --mfcc-config common/mfcc.conf --cmd "$train_cmd" \
-      --nj $njobs_dev_test $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
+      --nj $njobs_mfcc $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
     # Note --fake -> NO CMVN
     local/check.sh steps/compute_cmvn_stats.sh $fake $WORK/local/$s \
       $EXP/make_mfcc/$s $WORK/mfcc || exit 1
 done
 for s in train ; do
     local/check.sh steps/make_mfcc.sh --mfcc-config common/mfcc.conf --cmd "$train_cmd" \
-      --nj $njobs $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
+      --nj $njobs_mfcc $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
     # Note --fake -> NO CMVN
     local/check.sh steps/compute_cmvn_stats.sh $fake $WORK/local/$s \
       $EXP/make_mfcc/$s $WORK/mfcc || exit 1
