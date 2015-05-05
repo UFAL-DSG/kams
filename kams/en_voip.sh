@@ -57,7 +57,7 @@ export g2p="local/prepare_dummy_transcription.sh"
 # for standard training using using CPU
 export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G"
 export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G"
-export njobs=200
+export njobs=100
 export njobs_mfcc=50
 export njobs_dev_test=100
 
