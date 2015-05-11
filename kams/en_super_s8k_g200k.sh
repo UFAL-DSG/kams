@@ -58,7 +58,7 @@ export g2p="local/prepare_en_transcription.sh"
 export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer1' | tr '\n' ',' | sed s/\,$//`'"
 export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer1' | tr '\n' ',' | sed s/\,$//`'"
 export njobs=1000
-export njobs_mfcc=50
+export njobs_mfcc=40
 export njobs_dev_test=400
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.

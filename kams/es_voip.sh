@@ -55,8 +55,8 @@ export g2p="local/prepare_dummy_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G"
-export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G"
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -20"
+export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -20"
 export njobs=50
 export njobs_mfcc=20
 export njobs_dev_test=10
