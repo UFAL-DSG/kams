@@ -3,7 +3,7 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=true
+export TRI4_NNET2=false
 export TRI4_NNET2_SMBR=false
 
 # EVERY_N utterance is used for training
@@ -57,7 +57,7 @@ export g2p="local/prepare_en_transcription.sh"
 # for standard training using using CPU
 export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
 export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
-export njobs=1000
+export njobs=200
 export njobs_mfcc=40
 export njobs_dev_test=400
 
