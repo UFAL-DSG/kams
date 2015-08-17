@@ -35,7 +35,7 @@ install-kaldi-binaries: kaldi/src/kaldi.mk
 	echo "Kaldi installed to $(INSTALL_PREFIX)/{bin,lib}"
 
 irstlm:
-	svn -r 769 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
+	svn -r 884 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
 
 irstlm/Makefile: irstlm
 	cd irstlm && cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$(INSTALL_PREFIX)"

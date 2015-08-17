@@ -11,6 +11,7 @@ RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 RUN apt-get update && apt-get install -y \
         build-essential \
         cmake \
+        gawk \
         git \
         gcc-4.7 \
         g++-4.7 \
@@ -20,12 +21,9 @@ RUN apt-get update && apt-get install -y \
         python-software-properties \
         software-properties-common \
         subversion \
-        texlive \
-        texlive-latex-extra \
         wget \
         zip \
         zlib1g-dev
-# Get rid of texlive and texlive-latex-extra it is needed just by irstlm to build pdf manual ;-)!
 
 # using gcc-4.7. Gcc 4.8.2 is buggy
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
@@ -39,5 +37,9 @@ RUN . local/setting.sh ; ls -l path.sh ; . ./path.sh ; \
     apply-cmvn --help 2> /dev/null \
     && build-lm.sh --help > /dev/null \
     && echo -e "\n\nKaldi binaries and irstlm are installed under KALDI_ROOT=$KALDI_ROOT\n"
-RUN mkdir -p /app/kams
+
+# Directories where the kams source code and data should be mapped (See docker run -v option)
+# The directories are created with intention that the user of the container will modify the data there.
+# The directories are initialized empty.
+RUN mkdir -p /app/kams /app/data   
 WORKDIR /app/kams

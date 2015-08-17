@@ -2,8 +2,6 @@
 # Needed for "correct" sorting
 export LC_ALL=C
 
-echo DEBUG ONDRA
-
 if [ ! -d "$KALDI_ROOT" ] ; then
   echo "KALDI_ROOT need to be set to point to directory"
   exit 1
