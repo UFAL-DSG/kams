@@ -17,10 +17,16 @@ EOL
 
 echo '' > local/setting.sh
 
+if [[ ! -d data/train || ! -d data/dev || ! -d data/test ]] ; then
+  echo "You need to place your training data under this directory because of Docker filesystem restrictions!"
+  echo "Use data/{train,dev,test} for storing wav and trainscription files"
+  exit 1
+fi
+
+. docker_env.sh
 
 pwd=`pwd`
-id=$(docker run -v "$pwd":/app/kams -d ufaldsg/kams bash -c "cd /app/kams; ./train.sh $1")
-# id=$(docker run -v "$pwd":/app/kams -d ufaldsg/kams bash -c 'cd /app/kams; ls -al . ; . path.sh')
+id=$(docker run --dns 8.8.8.8 -v "$pwd":/app/kams -v "$pwd"/data:/$DATA_ROOT -d ufaldsg/kams bash -c "cd /app/kams; ./train.sh $@ docker_env.sh")
 echo Training running in docker $id; echo SEE THE DOCKER CONTAINER STDOUT/STDERR BELOW; echo
 docker logs $id
 
