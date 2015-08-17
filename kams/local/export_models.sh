@@ -56,4 +56,4 @@ cp -f $exp/tri4_nnet2_smbr/tree $tgt/tri4_nnet2_smbr.tree
 cp -fr $exp/tri4_nnet2_smbr_online/conf $tgt/tri4_nnet2_smbr_online_conf
 cp -fr $exp/tri4_nnet2_smbr_online/ivector_extractor $tgt/tri4_nnet2_smbr_online_ivector_extractor
 
-cp -f $lang/phones.txt $lang/phones/silence.csl $tgt
+cp -f $WORK/local/dict $lang/phones.txt $lang/phones/silence.csl $tgt

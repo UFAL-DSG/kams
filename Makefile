@@ -26,14 +26,13 @@ $(FSTDIR)/lib/libfst.a: kaldi/.git
 kaldi: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kaldi.mk
 	$(MAKE) -C kaldi/src
 
-install: kaldi install-irstlm
-	echo "Kaldi compiled"
-	echo "irstlm Installed to $(INSTALL_PREFIX)"
+install: install-kaldi-binaries install-irstlm
 
 
 install-kaldi-binaries: kaldi/src/kaldi.mk
 	cp -r kaldi/src/lib/* $(INSTALL_PREFIX)/lib
 	cp `find kaldi/src -executable -type f` $(INSTALL_PREFIX)/bin
+	echo "Kaldi installed to $(INSTALL_PREFIX)/{bin,lib}"
 
 irstlm:
 	svn -r 769 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
@@ -44,6 +43,7 @@ irstlm/Makefile: irstlm
 install-irstlm: irstlm/Makefile
 	$(MAKE) -C irstlm
 	$(MAKE) -C irstlm install
+	echo "IRSTLM installed to $(INSTALL_PREFIX)/{bin,lib}"
 	
 distclean:
 	$(MAKE) -C kaldi/tools distclean

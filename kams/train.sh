@@ -20,6 +20,7 @@ if [[ ! -z "$1" ]] ; then
   . $1
 else
   echo "You must specify a parameter file, e.g. train.sh LANG_COND_params.sh"
+  return 1
 fi
 
 local/train_base.sh
