@@ -236,4 +236,4 @@ local/results.py $EXP | tee $EXP/results.log
 cp $EXP/results.log $WORK/../results/`date -u +"%Y-%m-%d--%H-%M-%S"`-results-`basename $WORK`.log
 
 echo "Successfully trained and evaluated all the experiments"
-local/export_models.sh $TGT_MODELS $EXP $WORK/lang
+local/export_models.sh $TGT_MODELS $EXP $WORK

@@ -2,6 +2,7 @@
 # set -x
 
 echo ; echo "Do not change the cmd.sh during training. You probably want to use queue.pl for large scale experiments."; echo
+
 # FIXME @Filip We should move the settings away from git and then these hacks are not necessary
 cat > cmd.sh << EOL
 #!/bin/bash
@@ -15,8 +16,6 @@ export gpu_cmd=run.pl
 export gpu_nj=4
 EOL
 
-echo '' > local/setting.sh
-
 if [[ ! -d data/train || ! -d data/dev || ! -d data/test ]] ; then
   echo "You need to place your training data under this directory because of Docker filesystem restrictions!"
   echo "Use data/{train,dev,test} for storing wav and trainscription files"
@@ -24,6 +23,9 @@ if [[ ! -d data/train || ! -d data/dev || ! -d data/test ]] ; then
 fi
 
 . docker_env.sh
+if [ -z $DATA_ROOT ] ; then
+  echo "Errror docker_env.sh should set $DATA_ROOT to docker local path"; exit 1
+fi
 
 pwd=`pwd`
 id=$(docker run --dns 8.8.8.8 -v "$pwd":/app/kams -v "$pwd"/data:/$DATA_ROOT -d ufaldsg/kams bash -c "cd /app/kams; ./train.sh $@ docker_env.sh")
