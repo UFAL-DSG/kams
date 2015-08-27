@@ -28,7 +28,7 @@ if [ -z $DATA_ROOT ] ; then
 fi
 
 pwd=`pwd`
-id=$(docker run --dns 8.8.8.8 -v "$pwd":/app/kams -v "$pwd"/data:/$DATA_ROOT -d ufaldsg/kams bash -c "cd /app/kams; ./train.sh $@ docker_env.sh")
+id=$(docker run -v "$pwd":/app/kams -v "$pwd"/data:/$DATA_ROOT -d ufaldsg/kams bash -c "cd /app/kams; ./train.sh $@ docker_env.sh")
 echo Training running in docker $id; echo SEE THE DOCKER CONTAINER STDOUT/STDERR BELOW; echo
 docker logs $id
 

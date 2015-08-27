@@ -31,21 +31,23 @@ RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
 
 # Installing the binaries system wide, so the huge number of object files can be cleaned.
-ENV KALDI_ROOT=/kaldi_uproot/kams/kaldi \
+ENV KALDI_ROOT=/app/kams_docker_add/kaldi \
+    KAMS_ROOT=/app/kams_docker_add \
     INSTALL_PREFIX=/usr/local
 
-RUN mkdir -p /kaldi_uproot /app/kams /app/data   
+RUN mkdir -p $KALDI_ROOT $KAMS_ROOT /app/data   
 # We suppose that the dockerfile is used from the repo root e.g. trough docker/build_development.sh
-ADD . /kaldi_uproot  
-WORKDIR /kaldi_uproot
-RUN git submodule update --init --recursive && ls -al &&  make && make INSTALL_PREFIX=$INSTALL_PREFIX install && make distclean
-WORKDIR /kaldi_uproot/kams/kams
-RUN echo "DEBUGGING INFO and FEW TESTS:" && ls /usr/local/bin && echo $PATH && ls -l path.sh \
+ADD . $KAMS_ROOT 
+WORKDIR $KAMS_ROOT
+RUN make distclean && git submodule update --init --recursive && ls -al &&  make && make INSTALL_PREFIX=$INSTALL_PREFIX install && make distclean
+WORKDIR $KAMS_ROOT/kams
+RUN echo && echo "DEBUGGING INFO and FEW TESTS" && echo && ls $INSTALL_PREFIX/bin && echo $PATH && pwd && ls -l path.sh \
     && . ./path.sh \
     && apply-cmvn --help 2> /dev/null \
-    && echo -e "\n Kaldi libs and bins installed under $INSTALL_PREFIX/{bin,lib}\n"
-    && [ -d $KALDI_ROOT/egs/wsj/s5/steps ] && [ -d $KALDI_ROOT/egs/wsj/s5/utils ] \
-    && echo -e "\n\nKaldi scripts installed under KALDI_ROOT=$KALDI_ROOT" \
+    && echo; echo "Kaldi binaries installed under $INSTALL_PREFIX/bin" \
+    && ls -al $KALDI_ROOT/egs/wsj/s5/utils/mkgraph.sh \
+    && [ -d $KALDI_ROOT/egs/wsj/s5/steps ] && [ -d $KALDI_ROOT/egs/wsj/s5/utils ] && [ -f $KALDI_ROOT/egs/wsj/s5/utils/mkgraph.sh ] \
+    && echo; echo "\n\nKaldi scripts installed under KALDI_ROOT=$KALDI_ROOT" \
     && build-lm.sh --help > /dev/null \
     && echo -e "\n IRSTLM libraries and binaries are installed under $INSTALL_PREFIX/{bin,lib} \n" \
     && echo "/app/kams and /app/data are directories where the kams source code and data should be mapped (See docker run -v option)" \

@@ -1,1 +1,6 @@
-kams
+kams/model*
+kams/data
+kams/ckpts
+kams/results
+kams/steps
+kams/utils
