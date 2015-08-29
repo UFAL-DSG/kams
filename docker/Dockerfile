@@ -33,9 +33,10 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /
 # Installing the binaries system wide, so the huge number of object files can be cleaned.
 ENV KALDI_ROOT=/app/kams_docker_add/kaldi \
     KAMS_ROOT=/app/kams_docker_add \
-    INSTALL_PREFIX=/usr/local
+    INSTALL_PREFIX=/usr/local \
+    IRSTLM=/usr/local
 
-RUN mkdir -p $KALDI_ROOT $KAMS_ROOT /app/data   
+RUN mkdir -p $KALDI_ROOT $KAMS_ROOT /app/data  /app/kams 
 # We suppose that the dockerfile is used from the repo root e.g. trough docker/build_development.sh
 ADD . $KAMS_ROOT 
 WORKDIR $KAMS_ROOT
@@ -47,10 +48,11 @@ RUN echo && echo "DEBUGGING INFO and FEW TESTS" && echo && ls $INSTALL_PREFIX/bi
     && echo; echo "Kaldi binaries installed under $INSTALL_PREFIX/bin" \
     && ls -al $KALDI_ROOT/egs/wsj/s5/utils/mkgraph.sh \
     && [ -d $KALDI_ROOT/egs/wsj/s5/steps ] && [ -d $KALDI_ROOT/egs/wsj/s5/utils ] && [ -f $KALDI_ROOT/egs/wsj/s5/utils/mkgraph.sh ] \
-    && echo; echo "\n\nKaldi scripts installed under KALDI_ROOT=$KALDI_ROOT" \
-    && build-lm.sh --help > /dev/null \
-    && echo -e "\n IRSTLM libraries and binaries are installed under $INSTALL_PREFIX/{bin,lib} \n" \
+    && echo; echo "Kaldi scripts installed under KALDI_ROOT=$KALDI_ROOT" \
+    && build-lm.sh --help 2> /dev/null \
+    && echo; echo "IRSTLM libraries and binaries are installed under $INSTALL_PREFIX/{bin,lib}" \
     && echo "/app/kams and /app/data are directories where the kams source code and data should be mapped (See docker run -v option)" \
     && echo "The directories are created with intention that the user of the container will modify the data there." \
     && echo "The directories are initialized empty."
 WORKDIR /app/kams
+
