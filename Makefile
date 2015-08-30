@@ -37,8 +37,7 @@ install-kaldi-binaries: kaldi/src/bin/lattice-oracle $(INSTALL_PREFIX)/bin $(INS
 	@echo running install kaldi libraries
 	cp -f `find kaldi/src -executable -type f` $(INSTALL_PREFIX)/bin
 	@echo "Kaldi binaries installed to $(INSTALL_PREFIX)/bin"
-	cp kaldi/tools/openfst-*/lib/* $(INSTALL_PREFIX)/lib
-	cp -r kaldi/tools/openfst-*/lib/fst $(INSTALL_PREFIX)/lib
+	cp -fr kaldi/tools/openfst-*/lib/* $(INSTALL_PREFIX)/lib
 	@echo "Openfst (needed for Kaldi binaries) installed to $(INSTALL_PREFIX)/lib"
 
 irstlm:
