@@ -27,16 +27,19 @@ $(FSTDIR)/lib/libfst.a: kaldi/.git
 	$(MAKE) -C kaldi/tools openfst OPENFST_VERSION=$(OPENFST_VERSION); echo "Installing OpenFST finished: $?"
 
 
-kaldi/src/bin/compute-wer: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kaldi.mk
+kaldi/src/bin/lattice-oracle: $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h kaldi/src/kaldi.mk
 	$(MAKE) -C kaldi/src
 
 install: install-kaldi-binaries install-irstlm
 	@echo running install: should have run install-kaldi-binaries install-irstlm
 
-install-kaldi-binaries: kaldi/src/bin/compute-wer $(INSTALL_PREFIX)/bin $(INSTALL_PREFIX)/lib
+install-kaldi-binaries: kaldi/src/bin/lattice-oracle $(INSTALL_PREFIX)/bin $(INSTALL_PREFIX)/lib
 	@echo running install kaldi libraries
 	cp -f `find kaldi/src -executable -type f` $(INSTALL_PREFIX)/bin
-	@echo "Kaldi binaries installed to $(INSTALL_PREFIX)/{bin}"
+	@echo "Kaldi binaries installed to $(INSTALL_PREFIX)/bin"
+	cp kaldi/tools/openfst-*/lib/* $(INSTALL_PREFIX)/lib
+	cp -r kaldi/tools/openfst-*/lib/fst $(INSTALL_PREFIX)/lib
+	@echo "Openfst (needed for Kaldi binaries) installed to $(INSTALL_PREFIX)/lib"
 
 irstlm:
 	svn -r 884 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
