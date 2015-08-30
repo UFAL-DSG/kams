@@ -17,6 +17,8 @@ local/check.sh local/create_LMs.sh \
 
 local/check.sh $g2p $WORK/local/lm $WORK/local/dict || exit 1
 
+local/check.sh $g2p $WORK/local/lm/vocab-full.txt $WORK/local/dict/transcription.txt || exit 1
+local/check.sh local/prepare_phone_dict.sh $WORK/local/lm $WORK/local/dict || exit 1
 
 local/check.sh local/create_phone_lists.sh $WORK/local/dict || exit 1
 
