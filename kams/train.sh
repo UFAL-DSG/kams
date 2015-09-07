@@ -6,6 +6,24 @@ renice 20 $$
 # Source standard settings
 . ./local/setting.sh
 
+# Load training parameters (passed as a script)
+err_msg="You must specify a parameter file, e.g. train.sh LANG_COND_params.sh as argument."
+if [ $# -lt 1 ] ; then
+  echo "$err_msg"
+fi
+
+for settings in "$@" ; do
+  if [[ -f "$settings" ]] ; then
+    echo Loading settings: $settings; echo
+    . $settings
+  else
+    echo Error for file: $settings
+    echo $err_msg
+    exit 1
+  fi
+done
+
+
 local/check_path.sh
 
 # Set paths 
@@ -15,11 +33,5 @@ local/check_path.sh
 # change the train and decode commands in the file below
 . ./cmd.sh
 
-# Load training parameters (passed as a script)
-if [[ ! -z "$1" ]] ; then
-  . $1
-else
-  echo "You must specify a parameter file, e.g. train.sh LANG_COND_params.sh"
-fi
 
 local/train_base.sh

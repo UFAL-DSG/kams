@@ -1,9 +1,0 @@
-#!/bin/bash
-
-echo "You can run whatsoever command in ufaldsg/kams docker image."
-echo "However, it was intended for training AM on single machine using docker!"
-echo "So change the setting for running it with run.pl NOT queue.pl and adjust number of jobs!"
-echo
-echo "After that run e.g. ./train.sh es_voip.sh"
-
-docker run -v `pwd`:/app/kams -e KALDI_ROOT=/kaldi_uproot/kams/kaldi ufaldsg/kams $@ 

@@ -45,8 +45,8 @@ mkdir -p $local_lm
 echo "=== Preparing the LM ..."
 
 function build_0gram {
-    echo "=== Building zerogram $lm from ${transcr}. ..."
     transcr=$1; lm=$2
+    echo "=== Building zerogram $lm from ${transcr}. ==="
     cut -d' ' -f2- $transcr | tr ' ' '\n' | sort -u | egrep -v '^$' > $lm
     echo "<s>" >> $lm
     echo "</s>" >> $lm

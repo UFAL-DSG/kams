@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-locdata=$1
-locdict=$2
+vocab_full=$1; shift
+transcription=$1; shift
 
 cmu_dict=common/cmudict.0.7a
 cmu_ext=common/cmudict.ext
 
-mkdir -p $locdict
+mkdir -p common || echo "common directory for storing English pronunciation for $0 is already created"
 
 if [ ! -f $cmu_dict ] ; then
   echo "--- Downloading CMU dictionary ..."
@@ -22,16 +22,4 @@ cat $cmu_dict > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extensio
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
 perl local/make_baseform.pl \
   $locdict/cmudict_ext.txt /dev/stdout |\
-  sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $locdict/cmudict-plain.txt
-
-echo "--- Searching for OOV words ..."
-gawk 'NR==FNR{words[$1]; next;} !($1 in words)' \
-  $locdict/cmudict-plain.txt $locdata/vocab-full.txt |\
-  egrep -v '<.?s>' > $locdict/vocab-oov.txt || echo No OOV words
-
-gawk 'NR==FNR{words[$1]; next;} ($1 in words)' \
-  $locdata/vocab-full.txt $locdict/cmudict-plain.txt |\
-  egrep -v '<.?s>' > $locdict/lexicon.txt || echo No OOV words
-
-wc -l $locdict/vocab-oov.txt
-wc -l $locdict/lexicon.txt
+  sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $vocab_full
