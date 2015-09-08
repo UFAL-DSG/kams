@@ -17,6 +17,8 @@ local/check.sh local/create_LMs.sh \
 
 local/check.sh $g2p $WORK/local/lm $WORK/local/dict || exit 1
 
+local/check.sh $g2p $WORK/local/lm/vocab-full.txt $WORK/local/dict/transcription.txt || exit 1
+local/check.sh local/prepare_phone_dict.sh $WORK/local/lm $WORK/local/dict || exit 1
 
 local/check.sh local/create_phone_lists.sh $WORK/local/dict || exit 1
 
@@ -236,4 +238,4 @@ local/results.py $EXP | tee $EXP/results.log
 cp $EXP/results.log $WORK/../results/`date -u +"%Y-%m-%d--%H-%M-%S"`-results-`basename $WORK`.log
 
 echo "Successfully trained and evaluated all the experiments"
-local/export_models.sh $TGT_MODELS $EXP $WORK/lang
+local/export_models.sh $TGT_MODELS $EXP $WORK

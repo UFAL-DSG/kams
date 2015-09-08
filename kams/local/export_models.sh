@@ -17,7 +17,7 @@
 
 tgt=$1; shift
 exp=$1; shift
-lang=$1; shift
+work=$1; shift
 
 tgt=${tgt}-`date -u +"%Y-%m-%d--%H-%M-%S"`
 
@@ -56,4 +56,4 @@ cp -f $exp/tri4_nnet2_smbr/tree $tgt/tri4_nnet2_smbr.tree
 cp -fr $exp/tri4_nnet2_smbr_online/conf $tgt/tri4_nnet2_smbr_online_conf
 cp -fr $exp/tri4_nnet2_smbr_online/ivector_extractor $tgt/tri4_nnet2_smbr_online_ivector_extractor
 
-cp -f $lang/phones.txt $lang/phones/silence.csl $tgt
+cp -f $work/local/dict/lexicon.txt $work/lang/phones.txt $work/lang/phones/silence.csl $tgt
