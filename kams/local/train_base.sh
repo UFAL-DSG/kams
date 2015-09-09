@@ -99,7 +99,7 @@ local/check.sh local/ctm2mlf.py $EXP/tri2b_ali/ctm $EXP/tri2b_ali/mlf || exit 1
 if [[ "$TRI2B_BMMI" = true ]] ; then
   echo
   echo "Train tri2b_bmmi [MMI on top of LDA+MLLT with boosting. train_mmi_boost is a e.g. 0.05]"
-  local/check.sh steps/make_denlats.sh  --nj $njobs --cmd "$train_cmd" \
+  local/check.sh steps/make_denlats.sh  --nj ${njobs} --cmd "$train_cmd" \
     --beam $mmi_beam --lattice-beam $mmi_lat_beam \
     $WORK/train $WORK/lang $EXP/tri2b $EXP/tri2b_denlats || exit 1
 
