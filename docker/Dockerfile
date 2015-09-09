@@ -45,7 +45,7 @@ RUN mkdir -p $KAMS_ROOT /app/data  /app/kams
 # We suppose that the dockerfile is used from the repo root e.g. trough docker/build_development.sh
 WORKDIR $KAMS_ROOT
 RUN echo commit_6d5dace1 && git clone --depth=1 --branch minor_fixes --recursive https://github.com/UFAL-DSG/kams.git $KAMS_ROOT \
-    && make && make INSTALL_PREFIX=$INSTALL_PREFIX install && make distclean && rm -rf $KAMS_ROOT/kaldi/{src,tools} && rm -rf $KAMS_ROOT/irstlm
+    && make INSTALL_PREFIX=$INSTALL_PREFIX install && make distclean && rm -rf $KAMS_ROOT/kaldi/{src,tools} && rm -rf $KAMS_ROOT/irstlm
 WORKDIR $KAMS_ROOT/kams
 RUN echo && echo "DEBUGGING INFO and FEW TESTS" && echo && ls $INSTALL_PREFIX/bin && echo $PATH \
     && echo $LD_LIBRARY_PATH && ls $INSTALL_PREFIX/lib \
