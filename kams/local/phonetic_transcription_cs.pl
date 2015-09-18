@@ -198,7 +198,6 @@ sub exceptions {
     s/^WEBBER/VEBER/g;
     s/^WEBER/VEBER/g;
     s/^WILSON/VILSON/g;
-
 }
 
 sub transcription {

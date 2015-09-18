@@ -51,7 +51,7 @@ export smbr_lat_beam=10.0
 # --fake -> NO CMVN; empty -> CMVN (pykaldi decoders can not handle CMVN -> fake)
 export fake="--fake"
 
-export g2p="local/prepare_dummy_transcription.sh"
+export g2p="local/prepare_en_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
