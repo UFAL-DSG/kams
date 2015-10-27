@@ -4,7 +4,7 @@ export LC_ALL=C
 
 if [ ! -d "$KALDI_ROOT" ] ; then
   echo "KALDI_ROOT need to be set to point to directory"
-  exit 1
+  return 1
 fi
 
 # adding Kaldi binaries to path
