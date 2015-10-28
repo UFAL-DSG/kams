@@ -1,6 +1,8 @@
 FSTDIR=kaldi/tools/openfst
 OPENFST_VERSION=1.3.4
 INSTALL_PREFIX=$(PWD)
+KALDI_URL=https://github.com/kaldi-asr/kaldi.git
+KALDI_COMMIT=95668a1e14315e3f2658b52d140e322ea3f06cf2
 
 all: install
 	@echo "running all should have run install"
@@ -11,10 +13,10 @@ $(INSTALL_PREFIX)/lib:
 $(INSTALL_PREFIX)/bin:
 	mkdir -p $@
 
-kaldi/.git: .gitmodules
-	git submodule init kaldi
-	git submodule sync -- kaldi
-	git submodule update kaldi
+kaldi/.git: Makefile
+	git clone $(KALDI_URL) kaldi
+	pushd kaldi; git reset --hard $(KALDI_COMMIT) ; popd
+
 
 kaldi/src/kaldi.mk: kaldi/.git $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h
 	@echo "kaldi configure"
@@ -58,4 +60,3 @@ distclean:
 	rm -f irstlm/CMakeCache.txt
 
 .PHONY: distclean install install-kaldi-binaries install-irstlm
-

@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+this_path=$(cd `dirname $0`; pwd)
+if [ -z "$this_path" ] || [ ! -d "$this_path" ] ; then echo "Failed $0"; exit 1; fi
 
 vocab_full=$1; shift
 transcription=$1; shift
@@ -16,10 +18,9 @@ if [ ! -f $cmu_dict ] ; then
 fi
 
 echo; echo "If common/cmudict.ext exists, add extra pronunciation to dictionary" ; echo
-#cat $cmu_dict  $cmu_ext > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extension
-cat $cmu_dict > $locdict/cmudict_ext.txt 2> /dev/null  # ignoring if no extension
+cat $cmu_dict > $cmu_ext 2> /dev/null  # ignoring if no extension
 
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
-perl local/make_baseform.pl \
-  $locdict/cmudict_ext.txt /dev/stdout |\
+perl $this_path/make_baseform.pl \
+  $cmu_ext /dev/stdout |\
   sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $vocab_full
