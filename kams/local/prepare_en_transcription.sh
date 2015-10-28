@@ -1,15 +1,16 @@
 #!/bin/bash
 set -e
-this_path=$(cd `dirname $0`; pwd)
-if [ -z "$this_path" ] || [ ! -d "$this_path" ] ; then echo "Failed $0"; exit 1; fi
+this_local_dir=$(cd `dirname $0` && pwd)
+if [ -z "$this_local_dir" ] || [ ! -d "$this_local_dir" ] ; then echo "Failed $0"; exit 1; fi
 
 vocab_full=$1; shift
 transcription=$1; shift
 
-cmu_dict=common/cmudict.0.7a
-cmu_ext=common/cmudict.ext
+locdict=$this_local_dir/dic_common
+cmu_dict=$locdict/cmudict.0.7a
+cmu_ext=$locdict/cmudict.ext
 
-mkdir -p common || echo "common directory for storing English pronunciation for $0 is already created"
+mkdir -p $locdict
 
 if [ ! -f $cmu_dict ] ; then
   echo "--- Downloading CMU dictionary ..."
@@ -17,10 +18,10 @@ if [ ! -f $cmu_dict ] ; then
      $cmu_dict || exit 1;
 fi
 
-echo; echo "If common/cmudict.ext exists, add extra pronunciation to dictionary" ; echo
+# echo; echo "If common/cmudict.ext exists, add extra pronunciation to dictionary" ; echo
+# You may want to concat cmu extension in future
 cat $cmu_dict > $cmu_ext 2> /dev/null  # ignoring if no extension
 
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
-perl $this_path/make_baseform.pl \
-  $cmu_ext /dev/stdout |\
+perl $this_local_dir/make_baseform.pl $cmu_ext /dev/stdout |\
   sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $vocab_full
