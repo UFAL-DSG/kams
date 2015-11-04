@@ -1,7 +1,6 @@
 # kams
 Kaldi Acoustic Modeling Scripts
 
-
-::
-  
-  train.sh en_voip.sh
+```sh
+  train.sh en_voip.sh [settings1.sh] [.. [settingsN.sh]]
+```
