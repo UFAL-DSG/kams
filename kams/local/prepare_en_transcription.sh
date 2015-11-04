@@ -24,4 +24,4 @@ cat $cmu_dict > $cmu_ext 2> /dev/null  # ignoring if no extension
 
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
 perl $this_local_dir/make_baseform.pl $cmu_ext /dev/stdout |\
-  sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $vocab_full
+  sed -e 's:^\([^\s(]\+\)([0-9]\+)\(\s\+\)\(.*\):\1\2\3:' > $transcription
