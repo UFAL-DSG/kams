@@ -15,7 +15,7 @@ $(INSTALL_PREFIX)/bin:
 
 kaldi/.git: Makefile
 	git clone $(KALDI_URL) kaldi
-	pushd kaldi; git reset --hard $(KALDI_COMMIT) ; popd
+	cd kaldi; git reset --hard $(KALDI_COMMIT) ; cd -
 
 
 kaldi/src/kaldi.mk: kaldi/.git $(FSTDIR)/lib/libfst.a kaldi/tools/ATLAS/include/clapack.h
@@ -43,14 +43,14 @@ install-kaldi-binaries: kaldi/src/bin/lattice-oracle $(INSTALL_PREFIX)/bin $(INS
 	@echo "Openfst (needed for Kaldi binaries) installed to $(INSTALL_PREFIX)/lib"
 
 irstlm:
-	svn -r 884 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
+	svn -r 891 co --non-interactive --trust-server-cert https://svn.code.sf.net/p/irstlm/code/trunk irstlm
 
-irstlm/Makefile: irstlm
+irstlm/Makefile: irstlm $(INSTALL_PREFIX)/bin $(INSTALL_PREFIX)/lib
+	sed -i 's:ADD_SUBDIRECTORY (doc)::' irstlm/CMakeLists.txt
 	cd irstlm && cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$(INSTALL_PREFIX)"
 
-install-irstlm: irstlm/Makefile $(INSTALL_PREFIX)/bin $(INSTALL_PREFIX)/lib
-	$(MAKE) -C irstlm
-	$(MAKE) -C irstlm install
+install-irstlm: irstlm/Makefile
+	CC=gcc $(MAKE) -C irstlm install
 	@echo "IRSTLM installed to $(INSTALL_PREFIX)/{bin,lib}"
 
 distclean:

@@ -6,10 +6,13 @@ if [ ! -d "$KALDI_ROOT" ] ; then
   echo "KALDI_ROOT need to be set to point to directory"
   return 1
 fi
+if [ ! -d "$IRSTLM_ROOT" ] ; then
+  echo "IRSTLM_ROOT need to be set to point to directory"
+  return 1
+fi
 
 # adding Kaldi binaries to path
-export IRSTLM=$KALDI_ROOT/tools/irstlm
-export PATH=$KALDI_ROOT/src/bin:$KALDI_ROOT/tools/openfst/bin:$KALDI_ROOT/tools/irstlm/bin/:$KALDI_ROOT/src/fstbin/:$KALDI_ROOT/src/gmmbin/:$KALDI_ROOT/src/featbin/:$KALDI_ROOT/src/lm/:$KALDI_ROOT/src/sgmmbin/:$KALDI_ROOT/src/sgmm2bin/:$KALDI_ROOT/src/fgmmbin/:$KALDI_ROOT/src/kwsbin/:$KALDI_ROOT/src/latbin/:$KALDI_ROOT/src/nnet2bin/:$KALDI_ROOT/src/nnetbin/:$KALDI_ROOT/src/lmbin/:$KALDI_ROOT/src/ivectorbin:$KALDI_ROOT/src/online2bin:$KALDI_ROOT/src/onlinebin:$PWD:$PATH
+export PATH=$KALDI_ROOT/src/bin:$KALDI_ROOT/tools/openfst/bin:$IRSTLM_ROOT/bin/:$KALDI_ROOT/src/fstbin/:$KALDI_ROOT/src/gmmbin/:$KALDI_ROOT/src/featbin/:$KALDI_ROOT/src/lm/:$KALDI_ROOT/src/sgmmbin/:$KALDI_ROOT/src/sgmm2bin/:$KALDI_ROOT/src/fgmmbin/:$KALDI_ROOT/src/kwsbin/:$KALDI_ROOT/src/latbin/:$KALDI_ROOT/src/nnet2bin/:$KALDI_ROOT/src/nnetbin/:$KALDI_ROOT/src/lmbin/:$KALDI_ROOT/src/ivectorbin:$KALDI_ROOT/src/online2bin:$KALDI_ROOT/src/onlinebin:$PWD:$PATH
 
 export PATH=$PWD/utils:$PWD/steps:$PATH
 export LD_LIBRARY_PATH=$KALDI_ROOT/tools/openfst/lib:$KALDI_ROOT/tools/openfst/lib/fst:$LD_LIBRARY_PATH
