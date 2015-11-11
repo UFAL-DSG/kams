@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Copyright (c) 2013, Ondrej Platek, Ufal MFF UK <oplatek@ufal.mff.cuni.cz>
 # Copyright (c) 2015, Filip Jurcicek, Ufal MFF UK <Jurcicek@ufal.mff.cuni.cz>
 #
