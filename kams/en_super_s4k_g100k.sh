@@ -3,8 +3,8 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=false
-export TRI4_NNET2_SMBR=false
+export TRI4_NNET2=true
+export TRI4_NNET2_SMBR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -16,6 +16,7 @@ export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-super  # expects subdire
 export WORK=`pwd`/model_en_super_s4k_g100k
 export EXP=$WORK/exp
 export TGT_MODELS=exported/en_super_s4k_g100k
+export TGT_MODELS2=exported2/en_super_s4k_g100k
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -67,4 +68,3 @@ export gpu_cmd=run.pl
 export gpu_nj=16
 
 mkdir -p $WORK
-mkdir -p $TGT_MODELS

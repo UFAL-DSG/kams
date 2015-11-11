@@ -238,3 +238,5 @@ cp $EXP/results.log $WORK/../results/`date -u +"%Y-%m-%d--%H-%M-%S"`-results-`ba
 
 echo "Successfully trained and evaluated all the experiments"
 local/export_models.sh $TGT_MODELS $EXP $WORK
+
+local/export_models2.sh $TGT_MODELS2 $WORK

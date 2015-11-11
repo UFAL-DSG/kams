@@ -16,6 +16,7 @@ export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-voip  # expects subdirec
 export WORK=`pwd`/model_en_voip
 export EXP=$WORK/exp
 export TGT_MODELS=exported/en_voip
+export TGT_MODELS2=exported2/en_voip
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -67,4 +68,3 @@ export gpu_cmd=run.pl
 export gpu_nj=16
 
 mkdir -p $WORK
-mkdir -p $TGT_MODELS
