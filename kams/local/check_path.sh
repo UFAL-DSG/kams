@@ -24,7 +24,7 @@ for syml in $symlinks ; do
   export PATH="$PWD/$name":$PATH
 done
 
-if [ ! -z "$IRSTLM" ] ; then
-  echo "IRSTLM variable is not set!"
+if [ ! -d "$IRSTLM_ROOT" ] ; then
+  echo "IRSTLM_ROOT need to be set to point to directory"
   echo "May not be able to create LMs!"
 fi

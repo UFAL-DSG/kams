@@ -44,7 +44,6 @@ cp -f $EXP/results.log $TGT/results.log
 echo "--- Exporting models to $T_TRI2B ..."
 ##################################################################################################################
 
-cp -f $WORK/local/dict/lexicon.txt $T_TRI2B
 cp -f $EXP/tri2b/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI2B
 cp -f $E_TRI2B/final.mdl $T_TRI2B
 cp -f $E_TRI2B/final.mat $T_TRI2B
@@ -66,7 +65,7 @@ EOM
 
 mkdir -p $T_TRI2B/conf
 cp -f common/mfcc.conf $T_TRI2B/conf
-cp -f $E_TRI2B/splice_opts  $T_TRI2B/conf/splice.conf
+cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI2B/conf/splice.conf
 
 echo -n "--endpoint.silence_phones=" > $T_TRI2B/conf/endpoint.conf
 cat $EXP/tri2b/graph_build2/phones/silence.csl >> $T_TRI2B/conf/endpoint.conf
@@ -83,18 +82,19 @@ cat > $T_TRI2B/conf/decodable.conf<<- EOM
 --acoustic-scale=0.1
 EOM
 
+mkdir -p $T_TRI2B/dict
+cp -f $WORK/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,nonsilence_phones.txt,extra_questions.txt} $T_TRI2B/dict
+
 ##################################################################################################################
 echo "--- Exporting models to $T_NNET2 ..."
 ##################################################################################################################
 
-rm -fr $T_NNET2/conf
-rm -fr $T_NNET2/ivector_extractor
-
-cp -f $WORK/local/dict/lexicon.txt $T_NNET2
 cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_NNET2
 cp -f $E_NNET2/final.mdl $T_NNET2
+cp -f $E_TRI2B/final.mat $T_NNET2
 cp -f $E_NNET2/tree $T_NNET2
 cp -fr $E_NNET2/ivector_extractor $T_NNET2
+cat $E_NNET2/ivector_extractor/splice_opts | sed 's/ --/\n--/g' > $T_NNET2/ivector_extractor/splice_opts
 
 cat > $T_NNET2/pykaldi.cfg<<- EOM
 --model_type=nnet2
@@ -142,19 +142,19 @@ cat > $T_NNET2/conf/decodable.conf<<- EOM
 --acoustic-scale=0.1
 EOM
 
+mkdir -p $T_NNET2/dict
+cp -f $WORK/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,nonsilence_phones.txt,extra_questions.txt} $T_NNET2/dict
+
 ##################################################################################################################
 echo "--- Exporting models to $T_NNET2SMBR ..."
 ##################################################################################################################
 
-rm -fr $T_NNET2SMBR/conf
-rm -fr $T_NNET2SMBR/ivector_extractor
-
-cp -f $WORK/local/dict/lexicon.txt $T_NNET2SMBR
 cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_NNET2SMBR
 cp -f $E_NNET2SMBR/final.mdl $T_NNET2SMBR
+cp -f $E_TRI2B/final.mat $T_NNET2SMBR
 cp -f $E_NNET2SMBR/tree $T_NNET2SMBR
 cp -fr $E_NNET2SMBR/ivector_extractor $T_NNET2SMBR
-
+cat $E_NNET2SMBR/ivector_extractor/splice_opts | sed 's/ --/\n--/g' > $T_NNET2SMBR/ivector_extractor/splice_opts
 
 cat > $T_NNET2SMBR/pykaldi.cfg<<- EOM
 --model_type=nnet2
@@ -201,3 +201,6 @@ EOM
 cat > $T_NNET2SMBR/conf/decodable.conf<<- EOM
 --acoustic-scale=0.1
 EOM
+
+mkdir -p $T_NNET2SMBR/dict
+cp -f $WORK/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,nonsilence_phones.txt,extra_questions.txt} $T_NNET2SMBR/dict
