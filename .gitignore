@@ -1,3 +1,6 @@
 kaldi
 .idea
 irstlm
+bin
+include
+lib
