@@ -154,6 +154,24 @@ if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
     $WORK $EXP || exit 1
 fi
 
+if [[ "$TRI5_NNET2_IVECTOR" = true ]] ; then
+  echo
+  echo "Train nnet"
+  ./local/run_nnet_online_ivector.sh --gauss $gauss --pdf $pdf \
+    --srcdir $EXP/tri2b \
+    --tgtdir $EXP/tri5_nnet2_ivector \
+    $WORK $EXP || exit 1
+fi
+
+if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
+  echo
+  echo "Train nnet discriminatively [SMBR]"
+  ./local/run_nnet_online_ivector-discriminative.sh --gauss $gauss --pdf $pdf \
+    --srcdir $EXP/tri5_nnet2_ivecotor \
+    --tgtdir $EXP/tri5_nnet2_smbr_ivector \
+    $WORK $EXP || exit 1
+fi
+
 # Cleaning does not help a lot
 # local/check.sh local/data_clean.sh --thresh 0.1 --cleandir $EXP/tri2b_mmi_b${train_mmi_boost}_selected \
 #   $WORK/train $WORK/lang $EXP/tri2b_mmi_b${train_mmi_boost} $WORK/train_cleaned || exit 1
@@ -229,17 +247,33 @@ for s in $TEST_SETS ; do
     if [[ "$TRI4_NNET2" = true ]] ; then
       echo
       echo "Decode nnet2 online"
-      local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+      local/check.sh steps/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_online/decode_${tgt_dir}
+        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2/decode_${tgt_dir}
     fi
 
     if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
       echo
       echo "Decode nnet2 discriminative [SMBR] online"
+      local/check.sh steps/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_smbr/decode_${tgt_dir}
+    fi
+
+    if [[ "$TRI5_NNET2_IVECTOR" = true ]] ; then
+      echo
+      echo "Decode nnet2 online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_smbr_online/decode_${tgt_dir}
+        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_online/decode_${tgt_dir}
+    fi
+
+    if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
+      echo
+      echo "Decode nnet2 discriminative [SMBR] online"
+      local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
+        --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
+        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_smbr_online/decode_${tgt_dir}
     fi
 
   done

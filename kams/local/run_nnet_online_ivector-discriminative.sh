@@ -46,16 +46,22 @@ mkdir -p $tgtdir
 
 local/check.sh steps/nnet2/make_denlats.sh --nj "$nj" --cmd "$train_cmd" \
     --num-threads 1 --parallel-opts "-pe smp 1" \
+    --online-ivector-dir $srcdir/ivectors_train \
     --beam $smbr_beam --lattice-beam $smbr_lat_beam \
     $WORK/train $WORK/lang $srcdir ${srcdir}_denlats
 
 local/check.sh steps/nnet2/align.sh --nj "$nj" --cmd "$train_cmd" \
+    --online-ivector-dir $srcdir/ivectors_train \
     $WORK/train $WORK/lang $srcdir ${srcdir}_ali
 
 # SMBR discriminative training
 local/check.sh steps/nnet2/train_discriminative.sh --cmd "$gpu_cmd" --learning-rate 0.00002 \
+    --online-ivector-dir $srcdir/ivectors_train \
     --num-jobs-nnet $num_jobs_nnet  --num-threads $num_threads --parallel-opts "$parallel_opts" \
     $WORK/train $WORK/lang \
     ${srcdir}_ali ${srcdir}_denlats ${srcdir}/final.mdl ${tgtdir}
+
+local/check.sh steps/online/nnet2/prepare_online_decoding.sh $WORK/lang \
+  $srcdir/extractor $tgtdir ${tgtdir}_online || exit 1
 
 exit 0
