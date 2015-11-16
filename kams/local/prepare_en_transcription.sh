@@ -21,6 +21,7 @@ fi
 # echo; echo "If common/cmudict.ext exists, add extra pronunciation to dictionary" ; echo
 # You may want to concat cmu extension in future
 cat $cmu_dict > $cmu_ext 2> /dev/null  # ignoring if no extension
+cat ./common/cmudict.ext >> $cmu_ext 2> /dev/null  # ignoring if no extension
 
 echo "--- Striping stress and pronunciation variant markers from cmudict ..."
 perl $this_local_dir/make_baseform.pl $cmu_ext /dev/stdout |\
