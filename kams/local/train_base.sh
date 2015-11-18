@@ -156,7 +156,7 @@ fi
 
 if [[ "$TRI5_NNET2_IVECTOR" = true ]] ; then
   echo
-  echo "Train nnet"
+  echo "Train nnet: ivector"
   ./local/run_nnet_online_ivector.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri2b \
     --tgtdir $EXP/tri5_nnet2_ivector \
@@ -165,9 +165,9 @@ fi
 
 if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
   echo
-  echo "Train nnet discriminatively [SMBR]"
+  echo "Train nnet discriminatively [SMBR]: ivector"
   ./local/run_nnet_online_ivector-discriminative.sh --gauss $gauss --pdf $pdf \
-    --srcdir $EXP/tri5_nnet2_ivecotor \
+    --srcdir $EXP/tri5_nnet2_ivector \
     --tgtdir $EXP/tri5_nnet2_smbr_ivector \
     $WORK $EXP || exit 1
 fi
