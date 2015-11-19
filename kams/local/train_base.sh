@@ -246,7 +246,7 @@ for s in $TEST_SETS ; do
 
     if [[ "$TRI4_NNET2" = true ]] ; then
       echo
-      echo "Decode nnet2 online"
+      echo "Decode nnet2"
       local/check.sh steps/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
         $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2/decode_${tgt_dir}
@@ -254,7 +254,7 @@ for s in $TEST_SETS ; do
 
     if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
       echo
-      echo "Decode nnet2 discriminative [SMBR] online"
+      echo "Decode nnet2 discriminative [SMBR]"
       local/check.sh steps/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
         $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri4_nnet2_smbr/decode_${tgt_dir}
@@ -262,18 +262,18 @@ for s in $TEST_SETS ; do
 
     if [[ "$TRI5_NNET2_IVECTOR" = true ]] ; then
       echo
-      echo "Decode nnet2 online"
+      echo "Decode nnet2 ivector online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_online/decode_${tgt_dir}
+        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_ivector_online/decode_${tgt_dir}
     fi
 
     if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
       echo
-      echo "Decode nnet2 discriminative [SMBR] online"
+      echo "Decode nnet2 discriminative [SMBR] ivector online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_smbr_online/decode_${tgt_dir}
+        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_smbr_ivector_online/decode_${tgt_dir}
     fi
 
   done
