@@ -4,7 +4,9 @@
 export TRI2B_BMMI=true
 export TRI3B=false
 export TRI4_NNET2=false
-export TRI4_NNET2_SMBR=true
+export TRI4_NNET2_SMBR=false
+export TRI5_NNET2_IVECTOR=false
+export TRI5_NNET2_SMBR_IVECTOR=false
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -12,11 +14,11 @@ export EVERY_N=1
 export TEST_SETS="dev test"
 
 # Directories set up
-export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-super  # expects subdirectories train + $TEST_SETS
-export WORK=`pwd`/model_en_super_s8k_g200k
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi  # expects subdirectories train + $TEST_SETS
+export WORK=`pwd`/model_en_hifi_s4k_g100k
 export EXP=$WORK/exp
-export TGT_MODELS=exported/en_super_s8k_g200k
-export TGT_MODELS2=exported2/en_super_s8k_g200k
+export TGT_MODELS=exported/en_hifi_s4k_g100k
+export TGT_MODELS2=exported2/en_hifi_s4k_g100k
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -35,11 +37,11 @@ export DICTIONARY="build"
 export min_lmw=4
 export max_lmw=20
 
-# Number of states for phonem training
-export pdf=8000 # 1200
+# Number of states for phoneme training
+export pdf=4000
 
-# Maximum number of Gaussians used for training
-export gauss=200000 # 19200
+# Maximum number of total Gaussians used for training
+export gauss=100000
 
 export train_mmi_boost=0.05
 
@@ -56,11 +58,12 @@ export g2p="local/prepare_en_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer1' | tr '\n' ',' | sed s/\,$//`'"
-export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer1' | tr '\n' ',' | sed s/\,$//`'"
-export njobs=1000
+export train_cmd="queue.pl -A ess4kg100k -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
+export decode_cmd="queue.pl -A ess4kg100k -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
+export njobs=100
 export njobs_mfcc=40
-export njobs_dev_test=400
+export njobs_dev_test=200
+export num_jobs_nnet=6
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!

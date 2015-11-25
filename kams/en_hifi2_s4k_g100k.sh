@@ -3,8 +3,10 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=false
-export TRI4_NNET2_SMBR=false
+export TRI4_NNET2=true
+export TRI4_NNET2_SMBR=true
+export TRI5_NNET2_IVECTOR=true
+export TRI5_NNET2_SMBR_IVECTOR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -12,11 +14,11 @@ export EVERY_N=1
 export TEST_SETS="dev test"
 
 # Directories set up
-export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi  # expects subdirectories train + $TEST_SETS
-export WORK=`pwd`/model_en_hifi_s2k_g50k
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi2  # expects subdirectories train + $TEST_SETS
+export WORK=`pwd`/model_en_hifi2_s4k_g100k
 export EXP=$WORK/exp
-export TGT_MODELS=exported/en_hifi_s2k_g50k
-export TGT_MODELS2=exported2/en_hifi_s2k_g50k
+export TGT_MODELS=exported/en_hifi2_s4k_g100k
+export TGT_MODELS2=exported2/en_hifi2_s4k_g100k
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -36,10 +38,10 @@ export min_lmw=4
 export max_lmw=20
 
 # Number of states for phoneme training
-export pdf=2000
+export pdf=4000
 
 # Maximum number of total Gaussians used for training
-export gauss=50000
+export gauss=100000
 
 export train_mmi_boost=0.05
 
@@ -61,6 +63,7 @@ export decode_cmd="queue.pl -A ess4kg100k -V -l mem_free=4G,h_vmem=8G -p -50 -q 
 export njobs=100
 export njobs_mfcc=40
 export njobs_dev_test=200
+export num_jobs_nnet=6
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!

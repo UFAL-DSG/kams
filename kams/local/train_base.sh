@@ -142,6 +142,7 @@ if [[ "$TRI4_NNET2" = true ]] ; then
   ./local/run_nnet_online.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri2b \
     --tgtdir $EXP/tri4_nnet2 \
+    --num_jobs_nnet $num_jobs_nnet \
     $WORK $EXP || exit 1
 fi
 
@@ -151,6 +152,7 @@ if [[ "$TRI4_NNET2_SMBR" = true ]] ; then
   ./local/run_nnet_online-discriminative.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri4_nnet2 \
     --tgtdir $EXP/tri4_nnet2_smbr \
+    --num_jobs_nnet $num_jobs_nnet \
     $WORK $EXP || exit 1
 fi
 
@@ -160,6 +162,7 @@ if [[ "$TRI5_NNET2_IVECTOR" = true ]] ; then
   ./local/run_nnet_online_ivector.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri2b \
     --tgtdir $EXP/tri5_nnet2_ivector \
+    --num_jobs_nnet $num_jobs_nnet \
     $WORK $EXP || exit 1
 fi
 
@@ -169,6 +172,7 @@ if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
   ./local/run_nnet_online_ivector-discriminative.sh --gauss $gauss --pdf $pdf \
     --srcdir $EXP/tri5_nnet2_ivector \
     --tgtdir $EXP/tri5_nnet2_smbr_ivector \
+    --num_jobs_nnet $num_jobs_nnet \
     $WORK $EXP || exit 1
 fi
 
