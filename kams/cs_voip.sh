@@ -11,6 +11,8 @@ export TRI4_NNET2_SMBR=true
 export EVERY_N=1
 export TEST_SETS="dev test"
 
+export mfcc_config=./common/mfcc_8khz.conf
+
 # Directories set up
 export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/cs-voip  # expects subdirectories train + $TEST_SETS
 export WORK=`pwd`/model_cs_voip
