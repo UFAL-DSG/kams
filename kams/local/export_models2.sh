@@ -69,7 +69,7 @@ cat > $T_TRI2B/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI2B/conf
-cp -f common/mfcc.conf $T_TRI2B/conf
+cp -f $mfcc_config $T_TRI2B/conf
 cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI2B/conf/splice.conf
 
 echo -n "--endpoint.silence_phones=" > $T_TRI2B/conf/endpoint.conf
@@ -113,7 +113,7 @@ cat > $T_TRI4/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI4/conf
-cp -f common/mfcc.conf $T_TRI4/conf
+cp -f $mfcc_config $T_TRI4/conf
 cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI4/conf/splice.conf
 
 echo -n "--endpoint.silence_phones=" > $T_TRI4/conf/endpoint.conf
@@ -157,7 +157,7 @@ cat > $T_TRI4SMBR/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI4SMBR/conf
-cp -f common/mfcc.conf $T_TRI4SMBR/conf
+cp -f $mfcc_config $T_TRI4SMBR/conf
 cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI4SMBR/conf/splice.conf
 
 echo -n "--endpoint.silence_phones=" > $T_TRI4SMBR/conf/endpoint.conf
@@ -204,6 +204,8 @@ cat > $T_TRI5/pykaldi.cfg<<- EOM
 EOM
 
 cp -fr $E_TRI5/conf $T_TRI5
+cp -f $mfcc_config $T_TRI5/conf
+cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI5/conf/splice.conf
 
 cat > $T_TRI5/conf/ivector_extractor.conf<<- EOM
 --splice-config=ivector_extractor/splice_opts
@@ -264,6 +266,8 @@ cat > $T_TRI5SMBR/pykaldi.cfg<<- EOM
 EOM
 
 cp -fr $E_TRI5/conf $T_TRI5SMBR
+cp -f $mfcc_config $T_TRI5SMBR/conf
+cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI5SMBR/conf/splice.conf
 
 cat > $T_TRI5SMBR/conf/ivector_extractor.conf<<- EOM
 --splice-config=ivector_extractor/splice_opts
