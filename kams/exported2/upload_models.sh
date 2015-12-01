@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 for dir in `find . -maxdepth 1 -type d | egrep -v '^.$'`
 do
     echo 'Compressing directory' $dir
     
-    tar -zcvf ${dir}.tar.gz $dir
+    [ ! -f "${dir}.tar.gz" ] && tar -zcvf ${dir}.tar.gz $dir
 done
 
 echo 'Uploading directories'
