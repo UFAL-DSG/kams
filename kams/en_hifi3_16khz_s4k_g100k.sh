@@ -3,10 +3,10 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=false
-export TRI4_NNET2_SMBR=false
-export TRI5_NNET2_IVECTOR=false
-export TRI5_NNET2_SMBR_IVECTOR=false
+export TRI4_NNET2=true
+export TRI4_NNET2_SMBR=true
+export TRI5_NNET2_IVECTOR=true
+export TRI5_NNET2_SMBR_IVECTOR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data

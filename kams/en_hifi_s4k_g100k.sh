@@ -13,6 +13,8 @@ export TRI5_NNET2_SMBR_IVECTOR=false
 export EVERY_N=1
 export TEST_SETS="dev test"
 
+export mfcc_config=./common/mfcc_8khz.conf
+
 # Directories set up
 export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi  # expects subdirectories train + $TEST_SETS
 export WORK=`pwd`/model_en_hifi_s4k_g100k
