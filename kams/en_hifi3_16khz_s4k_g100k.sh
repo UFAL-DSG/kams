@@ -3,8 +3,8 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=true
-export TRI4_NNET2_SMBR=true
+export TRI4_NNET2=false
+export TRI4_NNET2_SMBR=false
 export TRI5_NNET2_IVECTOR=true
 export TRI5_NNET2_SMBR_IVECTOR=true
 
@@ -16,7 +16,7 @@ export TEST_SETS="dev test"
 export mfcc_config=./common/mfcc_16khz.conf
 
 # Directories set up
-export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi3  # expects subdirectories train + $TEST_SETS
+export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi  # expects subdirectories train + $TEST_SETS
 export WORK=`pwd`/model_en_hifi3_16khz_s4k_g100k
 export EXP=$WORK/exp
 export TGT_MODELS=exported/en_hifi3_16khz_s4k_g100k
