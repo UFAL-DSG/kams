@@ -33,6 +33,7 @@ cp -f common/mfcc.conf $tgt
 cp -f $exp/tri2b/final.mdl $tgt/tri2b.mdl
 cp -f $exp/tri2b/tree $tgt/tri2b.tree
 cp -f $exp/tri2b/final.mat $tgt/tri2b.mat
+cp -f $exp/tri2b/graph_build2/HCLG.fst $tgt/HCLG_trib2b_bmmi.fst
 
 cp -f $exp/tri2b_mmi_b*[0-9]/final.mdl $tgt/tri2b_bmmi.mdl
 cp -f $exp/tri2b/tree $tgt/tri2b_bmmi.tree
@@ -41,5 +42,3 @@ cp -f $exp/tri2b_mmi_b*[0-9]/final.mat $tgt/tri2b_bmmi.mat
 
 cp -f $work/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,extra_questions.txt} $tgt
 cp -f $work/lang/phones.txt $work/lang/phones/silence.csl $tgt
-
-
