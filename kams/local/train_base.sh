@@ -19,6 +19,12 @@ set -e
 
 mkdir -p $WORK  $EXP
 
+# make the mfcc config configurable, due to compatibility use a default config if not set
+if [[ -z "$mfcc_config" ]] ; then
+    mfcc_config=common/mfcc.conf
+    echo "Unset mfcc_config - setting it to $mfcc_config"
+fi
+
 #######################################################################
 #       Preparing acoustic features, LMs and helper files             #
 #######################################################################
@@ -44,14 +50,14 @@ local/check.sh local/create_G.sh $WORK/lang "$LM_names" $WORK/local/lm $WORK/loc
 
 echo "Create MFCC features and storing them (Could be large)."
 for s in $TEST_SETS ; do
-    local/check.sh steps/make_mfcc.sh --mfcc-config common/mfcc.conf --cmd "$train_cmd" \
+    local/check.sh steps/make_mfcc.sh --mfcc-config $mfcc_config --cmd "$train_cmd" \
       --nj $njobs_mfcc $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
     # Note --fake -> NO CMVN
     local/check.sh steps/compute_cmvn_stats.sh $fake $WORK/local/$s \
       $EXP/make_mfcc/$s $WORK/mfcc || exit 1
 done
 for s in train ; do
-    local/check.sh steps/make_mfcc.sh --mfcc-config common/mfcc.conf --cmd "$train_cmd" \
+    local/check.sh steps/make_mfcc.sh --mfcc-config $mfcc_config --cmd "$train_cmd" \
       --nj $njobs_mfcc $WORK/local/$s $EXP/make_mfcc/$s $WORK/mfcc || exit 1
     # Note --fake -> NO CMVN
     local/check.sh steps/compute_cmvn_stats.sh $fake $WORK/local/$s \

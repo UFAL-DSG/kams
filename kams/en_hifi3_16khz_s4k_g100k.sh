@@ -5,20 +5,22 @@ export TRI2B_BMMI=true
 export TRI3B=false
 export TRI4_NNET2=false
 export TRI4_NNET2_SMBR=false
-export TRI5_NNET2_IVECTOR=false
-export TRI5_NNET2_SMBR_IVECTOR=false
+export TRI5_NNET2_IVECTOR=true
+export TRI5_NNET2_SMBR_IVECTOR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
 export EVERY_N=1
 export TEST_SETS="dev test"
 
+export mfcc_config=./common/mfcc_16khz.conf
+
 # Directories set up
 export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/en-hifi  # expects subdirectories train + $TEST_SETS
-export WORK=`pwd`/model_en_hifi_s4k_g100k
+export WORK=`pwd`/model_en_hifi3_16khz_s4k_g100k
 export EXP=$WORK/exp
-export TGT_MODELS=exported/en_hifi_s4k_g100k
-export TGT_MODELS2=exported2/en_hifi_s4k_g100k
+export TGT_MODELS=exported/en_hifi3_16khz_s4k_g100k
+export TGT_MODELS2=exported2/en_hifi3_16khz_s4k_g100k
 
 # Specify paths to arpa models. Paths may not contain spaces.
 # Specify build0 or build1 or build2, .. for building (zero|uni|bi)-gram LM.
@@ -61,8 +63,8 @@ export g2p="local/prepare_en_transcription.sh"
 export train_cmd="queue.pl -A ess4kg100k -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
 export decode_cmd="queue.pl -A ess4kg100k -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
 export njobs=100
-export njobs_mfcc=40
-export njobs_dev_test=200
+export njobs_mfcc=20
+export njobs_dev_test=100
 export num_jobs_nnet=6
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.

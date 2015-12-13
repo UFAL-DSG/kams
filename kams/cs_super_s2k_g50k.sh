@@ -11,6 +11,8 @@ export TRI4_NNET2_SMBR=true
 export EVERY_N=1
 export TEST_SETS="dev test"
 
+export mfcc_config=./common/mfcc_8khz.conf
+
 # Directories set up
 export DATA_ROOT=/net/me/merkur2/vystadial/asr-mixer/cs-super  # expects subdirectories train + $TEST_SETS
 export WORK=`pwd`/model_cs_super_s2k_g50k
@@ -60,7 +62,7 @@ export train_cmd="queue.pl -A css2kg50k -V -l mem_free=2G,h_vmem=4G -p -50 -q '`
 export decode_cmd="queue.pl -A css2kg50k -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`"
 export njobs=100
 export njobs_mfcc=40
-export njobs_dev_test=200
+export njobs_dev_test=100
 export num_jobs_nnet=6
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.

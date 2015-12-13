@@ -54,7 +54,7 @@ cp -f $E_TRI2B/final.mdl $T_TRI2B
 cp -f $E_TRI2B/final.mat $T_TRI2B
 cp -f $E_TRI2B/tree $T_TRI2B
 
-cat > $T_TRI2B/pykaldi.cfg<<- EOM
+cat > $T_TRI2B/alex_asr.conf<<- EOM
 --model_type=gmm
 --model=final.mdl
 --hclg=HCLG.fst
@@ -69,7 +69,7 @@ cat > $T_TRI2B/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI2B/conf
-cp -f common/mfcc.conf $T_TRI2B/conf
+cp -f $mfcc_config $T_TRI2B/conf
 cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI2B/conf/splice.conf
 
 echo -n "--endpoint.silence_phones=" > $T_TRI2B/conf/endpoint.conf
@@ -95,15 +95,14 @@ echo "--- Exporting models to $T_TRI4 ..."
 
 cp -f $E_TRI4/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI4
 cp -f $E_TRI4/final.mdl $T_TRI4
-cp -f $E_TRI2B/final.mat $T_TRI4
 cp -f $E_TRI4/tree $T_TRI4
 
-cat > $T_TRI4/pykaldi.cfg<<- EOM
+cat > $T_TRI4/alex_asr.conf<<- EOM
 --model_type=nnet2
 --model=final.mdl
 --hclg=HCLG.fst
 --words=words.txt
---mat_lda=final.mat
+--use_lda=false
 --use_ivectors=false
 --cfg_mfcc=conf/mfcc.conf
 --cfg_splice=conf/splice.conf
@@ -113,12 +112,14 @@ cat > $T_TRI4/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI4/conf
-cp -f common/mfcc.conf $T_TRI4/conf
-cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI4/conf/splice.conf
+cp -f $mfcc_config $T_TRI4/conf
+cat > $T_TRI4/conf/splice.conf<<- EOM
+--left-context=0
+--right-context=0
+EOM
 
 echo -n "--endpoint.silence_phones=" > $T_TRI4/conf/endpoint.conf
 cat $E_TRI4/graph_build2/phones/silence.csl >> $T_TRI4/conf/endpoint.conf
-
 cat > $T_TRI4/conf/decoder.conf<<- EOM
 --max-active=2000
 --min-active=200
@@ -139,15 +140,14 @@ echo "--- Exporting models to $T_TRI4SMBR ..."
 
 cp -f $E_TRI4/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI4SMBR
 cp -f $E_TRI4SMBR/final.mdl $T_TRI4SMBR
-cp -f $E_TRI2B/final.mat $T_TRI4SMBR
 cp -f $E_TRI4SMBR/tree $T_TRI4SMBR
 
-cat > $T_TRI4SMBR/pykaldi.cfg<<- EOM
+cat > $T_TRI4SMBR/alex_asr.conf<<- EOM
 --model_type=nnet2
 --model=final.mdl
 --hclg=HCLG.fst
 --words=words.txt
---mat_lda=final.mat
+--use_lda=false
 --use_ivectors=false
 --cfg_mfcc=conf/mfcc.conf
 --cfg_splice=conf/splice.conf
@@ -157,8 +157,11 @@ cat > $T_TRI4SMBR/pykaldi.cfg<<- EOM
 EOM
 
 mkdir -p $T_TRI4SMBR/conf
-cp -f common/mfcc.conf $T_TRI4SMBR/conf
-cat $E_TRI2B/splice_opts | sed 's/ --/\n--/g' > $T_TRI4SMBR/conf/splice.conf
+cp -f $mfcc_config $T_TRI4SMBR/conf
+cat > $T_TRI4SMBR/conf/splice.conf<<- EOM
+--left-context=0
+--right-context=0
+EOM
 
 echo -n "--endpoint.silence_phones=" > $T_TRI4SMBR/conf/endpoint.conf
 cat $E_TRI4SMBR/graph_build2/phones/silence.csl >> $T_TRI4SMBR/conf/endpoint.conf
@@ -183,17 +186,16 @@ echo "--- Exporting models to $T_TRI5 ..."
 
 cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5
 cp -f $E_TRI5/final.mdl $T_TRI5
-cp -f $E_TRI2B/final.mat $T_TRI5
 cp -f $E_TRI5/tree $T_TRI5
 cp -fr $E_TRI5/ivector_extractor $T_TRI5
 cat $E_TRI5/ivector_extractor/splice_opts | sed 's/ --/\n--/g' > $T_TRI5/ivector_extractor/splice_opts
 
-cat > $T_TRI5/pykaldi.cfg<<- EOM
+cat > $T_TRI5/alex_asr.conf<<- EOM
 --model_type=nnet2
 --model=final.mdl
 --hclg=HCLG.fst
 --words=words.txt
---mat_lda=final.mat
+--use_lda=false
 --use_ivectors=true
 --cfg_mfcc=conf/mfcc.conf
 --cfg_ivector=conf/ivector_extractor.conf
@@ -204,6 +206,11 @@ cat > $T_TRI5/pykaldi.cfg<<- EOM
 EOM
 
 cp -fr $E_TRI5/conf $T_TRI5
+cp -f $mfcc_config $T_TRI5/conf
+cat > $T_TRI5/conf/splice.conf<<- EOM
+--left-context=0
+--right-context=0
+EOM
 
 cat > $T_TRI5/conf/ivector_extractor.conf<<- EOM
 --splice-config=ivector_extractor/splice_opts
@@ -243,17 +250,16 @@ echo "--- Exporting models to $T_TRI5SMBR ..."
 
 cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5SMBR
 cp -f $E_TRI5SMBR/final.mdl $T_TRI5SMBR
-cp -f $E_TRI2B/final.mat $T_TRI5SMBR
 cp -f $E_TRI5SMBR/tree $T_TRI5SMBR
 cp -fr $E_TRI5SMBR/ivector_extractor $T_TRI5SMBR
 cat $E_TRI5SMBR/ivector_extractor/splice_opts | sed 's/ --/\n--/g' > $T_TRI5SMBR/ivector_extractor/splice_opts
 
-cat > $T_TRI5SMBR/pykaldi.cfg<<- EOM
+cat > $T_TRI5SMBR/alex_asr.conf<<- EOM
 --model_type=nnet2
 --model=final.mdl
 --hclg=HCLG.fst
 --words=words.txt
---mat_lda=final.mat
+--use_lda=false
 --use_ivectors=true
 --cfg_mfcc=conf/mfcc.conf
 --cfg_ivector=conf/ivector_extractor.conf
@@ -264,6 +270,11 @@ cat > $T_TRI5SMBR/pykaldi.cfg<<- EOM
 EOM
 
 cp -fr $E_TRI5/conf $T_TRI5SMBR
+cp -f $mfcc_config $T_TRI5SMBR/conf
+cat > $T_TRI5SMBR/conf/splice.conf<<- EOM
+--left-context=0
+--right-context=0
+EOM
 
 cat > $T_TRI5SMBR/conf/ivector_extractor.conf<<- EOM
 --splice-config=ivector_extractor/splice_opts
