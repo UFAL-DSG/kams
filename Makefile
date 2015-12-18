@@ -2,7 +2,8 @@ FSTDIR=kaldi/tools/openfst
 OPENFST_VERSION=1.3.4
 INSTALL_PREFIX=$(PWD)
 KALDI_URL=https://github.com/kaldi-asr/kaldi.git
-KALDI_COMMIT=95668a1e14315e3f2658b52d140e322ea3f06cf2
+KALDI_COMMIT=95668a1e14315e3f2658b52d140e322ea3f06cf2 # very old
+#KALDI_COMMIT=5d56564a2478834cd18da082897447dadb7eebe5 # almost recent
 
 all: install
 	@echo "running all should have run install"

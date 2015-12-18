@@ -5,6 +5,8 @@ export TRI2B_BMMI=true
 export TRI3B=false
 export TRI4_NNET2=true
 export TRI4_NNET2_SMBR=true
+export TRI5_NNET2_IVECTOR=true
+export TRI5_NNET2_SMBR_IVECTOR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -63,7 +65,7 @@ export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -20"
 export njobs=50
 export njobs_mfcc=20
 export njobs_dev_test=10
-export num_jobs_nnet=6
+export num_jobs_nnet=3
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!

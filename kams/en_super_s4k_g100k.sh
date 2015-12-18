@@ -60,12 +60,12 @@ export g2p="local/prepare_en_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -A ess4kg100k -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
-export decode_cmd="queue.pl -A ess4kg100k -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora5|pandora8|hyperion5|lucifer' | tr '\n' ',' | sed s/\,$//`'"
-export njobs=100
-export njobs_mfcc=40
-export njobs_dev_test=100
-export num_jobs_nnet=6
+export train_cmd="queue.pl -tc 100 -A ess4kg100k -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion5|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`'"
+export decode_cmd="queue.pl -tc 100 -A ess4kg100k -V -l mem_free=4G,h_vmem=8G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion5|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`'"
+export njobs=1000
+export njobs_mfcc=20
+export njobs_dev_test=1000
+export num_jobs_nnet=3
 
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!
