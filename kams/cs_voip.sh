@@ -5,6 +5,8 @@ export TRI2B_BMMI=true
 export TRI3B=false
 export TRI4_NNET2=true
 export TRI4_NNET2_SMBR=true
+export TRI5_NNET2_IVECTOR=true
+export TRI5_NNET2_SMBR_IVECTOR=true
 
 # EVERY_N utterance is used for training
 # EVERY_N=3    ->   we use one third of training data
@@ -58,8 +60,8 @@ export g2p="local/prepare_cs_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -20"
-export decode_cmd="queue.pl -V -l mem_free=4G,h_vmem=8G -p -20"
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`"
+export decode_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`"
 export njobs=100
 export njobs_mfcc=20
 export njobs_dev_test=100
@@ -68,6 +70,6 @@ export num_jobs_nnet=3
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!
 export gpu_cmd=run.pl
-export gpu_nj=16
+export gpu_nj=12
 
 mkdir -p $WORK

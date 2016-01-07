@@ -184,7 +184,7 @@ cp -f $WORK/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,nons
 echo "--- Exporting models to $T_TRI5 ..."
 ##################################################################################################################
 
-cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5
+cp -f $EXP/tri5_nnet2_ivector/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5
 cp -f $E_TRI5/final.mdl $T_TRI5
 cp -f $E_TRI5/tree $T_TRI5
 cp -fr $E_TRI5/ivector_extractor $T_TRI5
@@ -227,7 +227,7 @@ cat > $T_TRI5/conf/ivector_extractor.conf<<- EOM
 EOM
 
 echo -n "--endpoint.silence_phones=" > $T_TRI5/conf/endpoint.conf
-cat $E_TRI4/graph_build2/phones/silence.csl >> $T_TRI5/conf/endpoint.conf
+cat $EXP/tri5_nnet2_ivector/graph_build2/phones/silence.csl >> $T_TRI5/conf/endpoint.conf
 
 
 cat > $T_TRI5/conf/decoder.conf<<- EOM
@@ -248,7 +248,7 @@ cp -f $WORK/local/dict/{lexicon.txt,silence_phones.txt,optional_silence.txt,nons
 echo "--- Exporting models to $T_TRI5SMBR ..."
 ##################################################################################################################
 
-cp -f $EXP/tri4_nnet2/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5SMBR
+cp -f $EXP/tri5_nnet2_smbr_ivector/graph_build2/{HCLG.fst,phones.txt,words.txt} $T_TRI5SMBR
 cp -f $E_TRI5SMBR/final.mdl $T_TRI5SMBR
 cp -f $E_TRI5SMBR/tree $T_TRI5SMBR
 cp -fr $E_TRI5SMBR/ivector_extractor $T_TRI5SMBR
@@ -291,7 +291,7 @@ cat > $T_TRI5SMBR/conf/ivector_extractor.conf<<- EOM
 EOM
 
 echo -n "--endpoint.silence_phones=" > $T_TRI5SMBR/conf/endpoint.conf
-cat $E_TRI4/graph_build2/phones/silence.csl >> $T_TRI5SMBR/conf/endpoint.conf
+cat $EXP/tri5_nnet2_smbr_ivector/graph_build2/phones/silence.csl >> $T_TRI5SMBR/conf/endpoint.conf
 
 
 cat > $T_TRI5SMBR/conf/decoder.conf<<- EOM

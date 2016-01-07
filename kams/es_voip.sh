@@ -70,6 +70,6 @@ export num_jobs_nnet=3
 # This is a command to run the code on a CUDA enabled machine at UFAL. We do not have CUDA machines at the cluster.
 # You must run the training from a CUDA enabled manchine!
 export gpu_cmd=run.pl
-export gpu_nj=16
+export gpu_nj=12
 
 mkdir -p $WORK

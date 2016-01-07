@@ -202,6 +202,8 @@ for lm in $LM_names ; do
   [[ "$TRI3B" = true ]]           && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri3b $EXP/tri3b/graph_${lm} || exit 1)
   [[ "$TRI4_NNET2" = true ]]      && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2 $EXP/tri4_nnet2/graph_${lm} || exit 1)
   [[ "$TRI4_NNET2_SMBR" = true ]] && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri4_nnet2_smbr $EXP/tri4_nnet2_smbr/graph_${lm} || exit 1)
+  [[ "$TRI5_NNET2_IVECTOR" = true ]]      && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri5_nnet2_ivector $EXP/tri5_nnet2_ivector/graph_${lm} || exit 1)
+  [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] && (local/check.sh utils/mkgraph.sh $WORK/lang_${lm} $EXP/tri5_nnet2_smbr_ivector $EXP/tri5_nnet2_smbr_ivector/graph_${lm} || exit 1)
 done
 
 
@@ -275,7 +277,7 @@ for s in $TEST_SETS ; do
       echo "Decode nnet2 ivector online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_ivector_online/decode_${tgt_dir}
+        $EXP/tri5_nnet2_ivector/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_ivector_online/decode_${tgt_dir}
     fi
 
     if [[ "$TRI5_NNET2_SMBR_IVECTOR" = true ]] ; then
@@ -283,7 +285,7 @@ for s in $TEST_SETS ; do
       echo "Decode nnet2 discriminative [SMBR] ivector online"
       local/check.sh steps/online/nnet2/decode.sh --scoring-opts "--min-lmw $min_lmw --max-lmw $max_lmw" \
         --config common/decode.conf --nj $njobs_dev_test --cmd "$decode_cmd" \
-        $EXP/tri4_nnet2_smbr/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_smbr_ivector_online/decode_${tgt_dir}
+        $EXP/tri5_nnet2_smbr_ivector/graph_${lm} $WORK/$tgt_dir $EXP/tri5_nnet2_smbr_ivector_online/decode_${tgt_dir}
     fi
 
   done
