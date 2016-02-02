@@ -107,4 +107,6 @@ done
 local/check.sh steps/online/nnet2/prepare_online_decoding.sh $WORK/lang \
     $tgtdir/extractor $tgtdir ${tgtdir}_online || exit 1
 
+cp $mfcc_config ${tgtdir}_online/conf/mfcc.conf
+
 exit 0
