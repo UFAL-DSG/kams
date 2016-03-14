@@ -3,8 +3,8 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=true
-export TRI4_NNET2_SMBR=true
+export TRI4_NNET2=false
+export TRI4_NNET2_SMBR=false
 export TRI5_NNET2_IVECTOR=true
 export TRI5_NNET2_SMBR_IVECTOR=true
 
@@ -60,8 +60,8 @@ export g2p="local/prepare_cs_transcription.sh"
 
 # set paralelisation
 # for standard training using using CPU
-export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`"
-export decode_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`"
+export train_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`'"
+export decode_cmd="queue.pl -V -l mem_free=2G,h_vmem=4G -p -50 -q '`qselect | sort | egrep -v 'pandora|hyperion|orion|andromeda|lucifer|cosmos' | tr '\n' ',' | sed s/\,$//`'"
 export njobs=100
 export njobs_mfcc=20
 export njobs_dev_test=100

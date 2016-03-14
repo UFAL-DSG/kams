@@ -3,8 +3,8 @@
 # set what models to train
 export TRI2B_BMMI=true
 export TRI3B=false
-export TRI4_NNET2=true
-export TRI4_NNET2_SMBR=true
+export TRI4_NNET2=false
+export TRI4_NNET2_SMBR=false
 export TRI5_NNET2_IVECTOR=true
 export TRI5_NNET2_SMBR_IVECTOR=true
 
